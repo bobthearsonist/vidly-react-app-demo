@@ -21,28 +21,32 @@ class Movies extends Component {
   };
 
   render() {
-    if (this.state.movies.length === 0) return "No More Movies";
+    if (this.state.movies.length === 0) return <p>No More Movies</p>;
     return this.movieTable();
   }
 
   movieTable() {
+    const { movies } = this.state;
     return (
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">Title</th>
-            <th scope="col">Genre</th>
-            <th scope="col">Stock</th>
-            <th scope="col">Rate</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {this.state.movies.map((movie, index) => {
-            return this.buildTableEntry(movie);
-          })}
-        </tbody>
-      </table>
+      <React.Fragment>
+        <h2>{movies.length} Movies</h2>
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">Title</th>
+              <th scope="col">Genre</th>
+              <th scope="col">Stock</th>
+              <th scope="col">Rate</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {movies.map((movie, index) => {
+              return this.buildTableEntry(movie);
+            })}
+          </tbody>
+        </table>
+      </React.Fragment>
     );
   }
 
@@ -54,7 +58,6 @@ class Movies extends Component {
       numberInStock: stock,
       dailyRentalRate: rate,
     } = movie;
-    console.log(movie);
     return (
       <tr key={id}>
         <th scope="row">{title}</th>
