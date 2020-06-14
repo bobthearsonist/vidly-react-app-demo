@@ -9,6 +9,7 @@ const handleLike = (onLike) => {
 const Like = ({ liked, onLike }) => {
   return (
     <i
+      style={{ cursor: "pointer" }}
       className={getLikedClass(liked)}
       aria-hidden="true"
       onClick={() => handleLike(onLike)}

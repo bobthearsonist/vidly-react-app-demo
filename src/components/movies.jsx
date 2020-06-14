@@ -5,19 +5,18 @@ import Like from "./like";
 class Movies extends Component {
   state = { movies: getMovies() };
 
-  handleAdd = (movie) => {
-    this.setState({ movies: this.state.movies.set(movie.id, movie) });
-  };
-
   handleDelete = (movieId) => {
     deleteMovie(movieId);
     this.setState({ movies: getMovies() });
   };
 
-  handleLike = (movieId) => {
+  handleLike = (movie) => {
     console.log("handle click");
-    this.state.movies.filter((movie) => movie._id === movieId);
-    //this.setState({ movies: getMovies() });
+    const movies = [...this.state.movies];
+    const index = movies.indexOf(movie);
+    movies[index] = { ...movies[index] };
+    movies[index].liked = !movies[index].liked;
+    this.setState({ movies });
   };
 
   render() {
@@ -67,7 +66,7 @@ class Movies extends Component {
         <td>{stock}</td>
         <td>{rate}</td>
         <td>
-          <Like liked={liked} onLike={() => this.handleLike(id)}></Like>
+          <Like liked={liked} onLike={() => this.handleLike(movie)}></Like>
         </td>
         <td>
           <button
