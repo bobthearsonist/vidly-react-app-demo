@@ -2,9 +2,11 @@ import React, { Component } from "react";
 import "./App.css";
 import Movies from "./components/movies";
 import { getMovies, deleteMovie } from "./services/fakeMovieService";
+import Pagination from "./components/pagination";
+import _ from "lodash";
 
 class App extends Component {
-  state = { movies: getMovies() };
+  state = { movies: getMovies(), pageSize: 4, currentPage: 1 };
 
   handleDelete = (movieId) => {
     console.log("handle delete " + movieId);
@@ -21,16 +23,35 @@ class App extends Component {
     this.setState({ movies });
   };
 
+  handlePageChange = (page) => {
+    console.log("handle page event " + page);
+    this.setState({ currentPage: page });
+  };
+
   render() {
-    const { movies } = this.state;
+    const { movies, count = movies.length, pageSize, currentPage } = this.state;
+    const pagedMovies = _(movies)
+      .slice((currentPage - 1) * pageSize)
+      .take(pageSize)
+      .value();
+
+    console.log("paging:" + (currentPage - 1) * pageSize + ":" + pageSize);
     return (
       <main className="container">
-        <h2>{movies.length} Movies</h2>
+        <h2>{count} Movies</h2>
         <Movies
-          movies={movies}
+          movies={pagedMovies}
           onLike={(movie) => this.handleLike(movie)}
           onDelete={(id) => this.handleDelete(id)}
         />
+        <footer>
+          <Pagination
+            itemsCount={count}
+            pageSize={pageSize}
+            currentPage={currentPage}
+            onPageChange={(page) => this.handlePageChange(page)}
+          />
+        </footer>
       </main>
     );
   }
