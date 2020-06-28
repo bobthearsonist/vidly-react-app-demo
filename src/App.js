@@ -2,12 +2,20 @@ import React, { Component } from "react";
 import "./App.css";
 import Movies from "./components/movies";
 import { getMovies, deleteMovie } from "./services/fakeMovieService";
+import { getGenres } from "./services/fakeGenreService";
 import Pagination from "./components/pagination";
 import _ from "lodash";
 import Genre from "./components/genre";
+import AllGenre from "./components/genre";
 
 class App extends Component {
-  state = { movies: getMovies(), pageSize: 4, currentPage: 1 };
+  state = {
+    movies: getMovies(),
+    genres: getGenres(),
+    currentGenre: AllGenre,
+    pageSize: 4,
+    currentPage: 1,
+  };
 
   handleDelete = (movieId) => {
     console.log("handle delete " + movieId);
@@ -29,8 +37,14 @@ class App extends Component {
     this.setState({ currentPage: page });
   };
 
+  handleGenreSelect = (genre) => {
+    console.log("handle genre select " + genre.name);
+    this.setState({ currentGenre: genre });
+  };
+
   render() {
     const { movies, count = movies.length, pageSize, currentPage } = this.state;
+    const { genres, currentGenre } = this.state;
     const pagedMovies = _(movies)
       .slice((currentPage - 1) * pageSize)
       .take(pageSize)
@@ -41,7 +55,11 @@ class App extends Component {
       <main className="container">
         <div class="row">
           <div class="col-3">
-            <Genre />
+            <Genre
+              genres={genres}
+              onGenreSelect={(genre) => this.handleGenreSelect(genre)}
+              currentGenre={currentGenre}
+            />
           </div>
           <div class="col">
             <h2>{count} Movies</h2>
