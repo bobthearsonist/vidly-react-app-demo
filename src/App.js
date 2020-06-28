@@ -53,15 +53,15 @@ class App extends Component {
     console.log("paging:" + (currentPage - 1) * pageSize + ":" + pageSize);
     return (
       <main className="container">
-        <div class="row">
-          <div class="col-3">
+        <div className="row">
+          <div className="col-3">
             <Genre
               genres={genres}
               onGenreSelect={(genre) => this.handleGenreSelect(genre)}
               currentGenre={currentGenre}
             />
           </div>
-          <div class="col">
+          <div className="col">
             <h2>{count} Movies</h2>
             <Movies
               movies={pagedMovies}
