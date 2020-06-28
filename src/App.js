@@ -4,6 +4,7 @@ import Movies from "./components/movies";
 import { getMovies, deleteMovie } from "./services/fakeMovieService";
 import Pagination from "./components/pagination";
 import _ from "lodash";
+import Genre from "./components/genre";
 
 class App extends Component {
   state = { movies: getMovies(), pageSize: 4, currentPage: 1 };
@@ -38,20 +39,27 @@ class App extends Component {
     console.log("paging:" + (currentPage - 1) * pageSize + ":" + pageSize);
     return (
       <main className="container">
-        <h2>{count} Movies</h2>
-        <Movies
-          movies={pagedMovies}
-          onLike={(movie) => this.handleLike(movie)}
-          onDelete={(id) => this.handleDelete(id)}
-        />
-        <footer>
-          <Pagination
-            itemsCount={count}
-            pageSize={pageSize}
-            currentPage={currentPage}
-            onPageChange={(page) => this.handlePageChange(page)}
-          />
-        </footer>
+        <div class="row">
+          <div class="col-3">
+            <Genre />
+          </div>
+          <div class="col">
+            <h2>{count} Movies</h2>
+            <Movies
+              movies={pagedMovies}
+              onLike={(movie) => this.handleLike(movie)}
+              onDelete={(id) => this.handleDelete(id)}
+            />
+            <footer>
+              <Pagination
+                itemsCount={count}
+                pageSize={pageSize}
+                currentPage={currentPage}
+                onPageChange={(page) => this.handlePageChange(page)}
+              />
+            </footer>
+          </div>
+        </div>
       </main>
     );
   }
