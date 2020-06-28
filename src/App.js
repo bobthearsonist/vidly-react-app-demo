@@ -5,8 +5,8 @@ import { getMovies, deleteMovie } from "./services/fakeMovieService";
 import { getGenres } from "./services/fakeGenreService";
 import Pagination from "./components/pagination";
 import _ from "lodash";
-import Genre from "./components/genre";
-import AllGenre from "./components/genre";
+import ListGroup from "./components/listGroup";
+import AllGenre from "./components/listGroup";
 
 class App extends Component {
   state = {
@@ -59,10 +59,10 @@ class App extends Component {
       <main className="container">
         <div className="row">
           <div className="col-3">
-            <Genre
-              genres={genres}
-              onGenreSelect={(genre) => this.handleGenreSelect(genre)}
-              currentGenre={currentGenre}
+            <ListGroup
+              items={genres}
+              onItemSelect={(genre) => this.handleGenreSelect(genre)}
+              currentItem={currentGenre}
             />
           </div>
           <div className="col">
