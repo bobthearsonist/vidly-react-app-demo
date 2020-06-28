@@ -10,12 +10,16 @@ import AllGenre from "./components/genre";
 
 class App extends Component {
   state = {
-    movies: getMovies(),
-    genres: getGenres(),
+    movies: [],
+    genres: [],
     currentGenre: AllGenre,
     pageSize: 4,
     currentPage: 1,
   };
+
+  componentDidMount() {
+    this.setState({ movies: getMovies(), genres: getGenres() });
+  }
 
   handleDelete = (movieId) => {
     console.log("handle delete " + movieId);
