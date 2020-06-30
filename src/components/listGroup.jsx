@@ -1,52 +1,66 @@
 /* eslint-disable no-lone-blocks */
-import React from "react";
+import React, { Component } from "react";
 
-const ListGroup = ({
-  items,
-  active,
-  onItemSelect,
-  text = "name",
-  value = "_id",
-  hasAll = true,
-}) => {
-  return (
-    <div>
-      {hasAll ? all(active, onItemSelect) : null}
+export default class ListGroup extends Component {
+  get active() {
+    const { currentItem: active } = this.props;
+    return active !== undefined ? active : this.defaultAll();
+  }
 
-      {items.map((item) => {
-        return (
-          <button
-            key={item[value]}
-            type="button"
-            className={getGenreClasses(item, active)}
-            onClick={() => onItemSelect(item)}
-          >
-            {item[text]}
-          </button>
-        );
-      })}
-    </div>
-  );
+  render() {
+    const { items, onItemSelect, text, value, hasAll } = this.props;
+    return (
+      <div>
+        {hasAll ? this.all() : null}
+
+        {items.map((item) => {
+          return (
+            <button
+              key={item[value]}
+              type="button"
+              className={this.getGenreClasses(item)}
+              onClick={() => onItemSelect(item)}
+            >
+              {item[text]}
+            </button>
+          );
+        })}
+      </div>
+    );
+  }
+
+  getGenreClasses(item) {
+    const { value } = this.props;
+    const baseClasses = "list-group-item list-group-item-action";
+    return this.active[value] === item[value]
+      ? baseClasses + " active"
+      : baseClasses;
+  }
+
+  defaultAll() {
+    return {
+      [this.props.text]: "All Genres",
+      [this.props.value]: "all",
+    };
+  }
+
+  all() {
+    const { onItemSelect } = this.props;
+    return (
+      <button
+        key="all"
+        type="button"
+        className={this.getGenreClasses(this.defaultAll())}
+        onClick={() => onItemSelect(this.defaultAll())}
+      >
+        All
+      </button>
+    );
+  }
+}
+
+ListGroup.defaultProps = {
+  text: "name",
+  value: "_id",
+  hasAll: true,
 };
-
-const getGenreClasses = (genre, activeGenre) => {
-  const baseClasses = "list-group-item list-group-item-action";
-  return activeGenre._id === genre._id ? baseClasses + " active" : baseClasses;
-};
-
-const all = (active, onItemSelect, text, value) => {
-  const All = { [text]: "All Genres", [value]: "all" };
-
-  return (
-    <button
-      key="all"
-      type="button"
-      className={getGenreClasses(All, active)}
-      onClick={() => onItemSelect(All)}
-    >
-      All
-    </button>
-  );
-};
-
-export default ListGroup;

@@ -6,13 +6,12 @@ import { getGenres } from "./services/fakeGenreService";
 import Pagination from "./components/pagination";
 import _ from "lodash";
 import ListGroup from "./components/listGroup";
-import AllGenre from "./components/listGroup";
 
 class App extends Component {
   state = {
     movies: [],
     genres: [],
-    currentGenre: AllGenre,
+    currentGenre: undefined,
     pageSize: 4,
     currentPage: 1,
   };
@@ -28,7 +27,7 @@ class App extends Component {
   };
 
   handleLike = (movie) => {
-    console.log("handle delete " + movie.id);
+    console.log("handle like " + movie.id);
     const movies = [...this.state.movies];
     const index = movies.indexOf(movie);
     movies[index] = { ...movies[index] };
@@ -54,7 +53,6 @@ class App extends Component {
       .take(pageSize)
       .value();
 
-    console.log("paging:" + (currentPage - 1) * pageSize + ":" + pageSize);
     return (
       <main className="container">
         <div className="row">
