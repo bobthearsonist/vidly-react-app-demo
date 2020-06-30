@@ -2,7 +2,6 @@ import React from "react";
 import Like from "./like";
 
 const Movies = (props) => {
-  console.log(props);
   if (props.movies.length === 0) return <p>No More Movies</p>;
   return movieTable(props);
 };

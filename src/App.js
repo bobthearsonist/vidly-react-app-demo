@@ -16,8 +16,16 @@ class App extends Component {
     currentPage: 1,
   };
 
+  allGenres = { name: "All Genres", _id: "all" };
+
   componentDidMount() {
-    this.setState({ movies: getMovies(), genres: getGenres() });
+    const genres = [this.allGenres, ...getGenres()];
+    const currentGenre = this.allGenres;
+    this.setState({
+      movies: getMovies(),
+      genres,
+      currentGenre,
+    });
   }
 
   handleDelete = (movieId) => {
@@ -46,12 +54,24 @@ class App extends Component {
   };
 
   render() {
-    const { movies, count = movies.length, pageSize, currentPage } = this.state;
+    const { movies, pageSize, currentPage } = this.state;
     const { genres, currentGenre } = this.state;
-    const pagedMovies = _(movies)
+
+    console.log(movies);
+    console.log({ currentGenre });
+    const filteredMovies =
+      currentGenre === undefined || currentGenre === this.allGenres
+        ? movies
+        : _(movies)
+            .filter((movie) => movie.genre._id === currentGenre._id)
+            .value();
+
+    const pagedMovies = _(filteredMovies)
       .slice((currentPage - 1) * pageSize)
       .take(pageSize)
       .value();
+
+    const count = filteredMovies.length;
 
     return (
       <main className="container">
@@ -60,7 +80,7 @@ class App extends Component {
             <ListGroup
               items={genres}
               onItemSelect={(genre) => this.handleGenreSelect(genre)}
-              currentItem={currentGenre}
+              selectedItem={currentGenre}
             />
           </div>
           <div className="col">
