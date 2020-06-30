@@ -2,13 +2,13 @@ import React from "react";
 import Like from "./like";
 
 const Movies = (props) => {
-  console.log(props);
   if (props.movies.length === 0) return <p>No More Movies</p>;
   return movieTable(props);
 };
 
 const handleLike = (movie, onLike) => {
-  console.log("pass like " + movie);
+  console.log("pass like ");
+  console.log({ movie });
   onLike(movie);
 };
 
@@ -17,17 +17,25 @@ const handleDelete = (id, onDelete) => {
   onDelete(id);
 };
 
-const movieTable = ({ movies, onLike, onDelete }) => {
+const movieTable = ({ movies, onLike, onDelete, onSort }) => {
   return (
     <React.Fragment>
       <table className="table">
         <thead>
           <tr>
-            <th scope="col">Title</th>
-            <th scope="col">Genre</th>
-            <th scope="col">Stock</th>
-            <th scope="col">Rate</th>
-            <th scope="col" />
+            <th onClick={() => onSort("title")} scope="col">
+              Title
+            </th>
+            <th onClick={() => onSort("genre.name")} scope="col">
+              Genre
+            </th>
+            <th onClick={() => onSort("numberInStock")} scope="col">
+              Stock
+            </th>
+            <th onClick={() => onSort("dailyRentalRate")} scope="col">
+              Rate
+            </th>
+            <th onClick={() => onSort("liked")} scope="col" />
             <th scope="col"></th>
           </tr>
         </thead>
