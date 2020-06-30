@@ -50,7 +50,7 @@ class App extends Component {
 
   handleGenreSelect = (genre) => {
     console.log("handle genre select " + genre.name);
-    this.setState({ currentGenre: genre });
+    this.setState({ currentGenre: genre, currentPage: 1 });
   };
 
   render() {
