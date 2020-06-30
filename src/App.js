@@ -57,8 +57,6 @@ class App extends Component {
     const { movies, pageSize, currentPage } = this.state;
     const { genres, currentGenre } = this.state;
 
-    console.log(movies);
-    console.log({ currentGenre });
     const filteredMovies =
       currentGenre === undefined || currentGenre === this.allGenres
         ? movies

@@ -7,7 +7,8 @@ const Movies = (props) => {
 };
 
 const handleLike = (movie, onLike) => {
-  console.log("pass like " + movie);
+  console.log("pass like ");
+  console.log({ movie });
   onLike(movie);
 };
 
