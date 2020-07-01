@@ -54,20 +54,9 @@ class App extends Component {
     this.setState({ currentGenre: genre, currentPage: 1 });
   };
 
-  handleSort = (selectedSortPath) => {
-    console.log("handle sort " + { selectedSortPath });
-    const orderMap = { asc: true, desc: false };
-    const orderLookup = _(orderMap).invert().value();
-    const currentOrder = orderMap[this.state.sortOrder.order];
-
-    const sortOrder = {
-      path: selectedSortPath,
-      order:
-        selectedSortPath === this.state.sortOrder.path
-          ? orderLookup[!currentOrder]
-          : "asc",
-    };
-    this.setState({ sortOrder });
+  handleSort = (selectedSortOrder) => {
+    console.log("handle sort");
+    this.setState({ sortOrder: selectedSortOrder });
   };
 
   render() {
@@ -115,6 +104,7 @@ class App extends Component {
               movies={pagedMovies}
               onLike={(movie) => this.handleLike(movie)}
               onDelete={(id) => this.handleDelete(id)}
+              sortOrder={sortOrder}
               onSort={(selectedSort) => this.handleSort(selectedSort)}
             />
             <footer>

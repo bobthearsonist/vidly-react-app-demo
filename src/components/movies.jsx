@@ -1,5 +1,6 @@
 import React from "react";
 import Like from "./like";
+import _ from "lodash";
 
 const Movies = (props) => {
   if (props.movies.length === 0) return <p>No More Movies</p>;
@@ -17,25 +18,63 @@ const handleDelete = (id, onDelete) => {
   onDelete(id);
 };
 
-const movieTable = ({ movies, onLike, onDelete, onSort }) => {
+const handleSort = (selectedSortColumn, currentSortOrder, onSort) => {
+  console.log("handle sort " + selectedSortColumn);
+
+  const sortPaths = {
+    Title: "title",
+    Genre: "genre.name",
+    Stock: "numberInStock",
+    Rate: "dailyRentalRate",
+    Liked: "liked",
+  };
+  const orderMap = { asc: true, desc: false };
+  const orderLookup = _(orderMap).invert().value();
+  const currentOrder = orderMap[currentSortOrder.order];
+
+  onSort({
+    path: currentSortOrder.path,
+    order:
+      sortPaths[selectedSortColumn] === currentSortOrder.path
+        ? orderLookup[!currentOrder]
+        : "asc",
+  });
+};
+
+const movieTable = ({ movies, onLike, onDelete, sortOrder, onSort }) => {
   return (
     <React.Fragment>
       <table className="table">
         <thead>
           <tr>
-            <th onClick={() => onSort("title")} scope="col">
+            <th
+              onClick={() => handleSort("Title", sortOrder, onSort)}
+              scope="col"
+            >
               Title
             </th>
-            <th onClick={() => onSort("genre.name")} scope="col">
+            <th
+              onClick={() => handleSort("Genre", sortOrder, onSort)}
+              scope="col"
+            >
               Genre
             </th>
-            <th onClick={() => onSort("numberInStock")} scope="col">
+            <th
+              onClick={() => handleSort("Stock", sortOrder, onSort)}
+              scope="col"
+            >
               Stock
             </th>
-            <th onClick={() => onSort("dailyRentalRate")} scope="col">
+            <th
+              onClick={() => handleSort("Rate", sortOrder, onSort)}
+              scope="col"
+            >
               Rate
             </th>
-            <th onClick={() => onSort("liked")} scope="col" />
+            <th
+              onClick={() => handleSort("Liked", sortOrder, onSort)}
+              scope="col"
+            />
             <th scope="col"></th>
           </tr>
         </thead>
