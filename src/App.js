@@ -14,7 +14,7 @@ class App extends Component {
     currentGenre: undefined,
     pageSize: 4,
     currentPage: 1,
-    selectedSort: { path: "title", order: "asc" },
+    sortOrder: { path: "title", order: "asc" },
   };
 
   allGenres = { name: "All Genres", _id: "all" };
@@ -54,9 +54,20 @@ class App extends Component {
     this.setState({ currentGenre: genre, currentPage: 1 });
   };
 
-  handleSort = (selectedSort) => {
-    console.log("handle sort " + { selectedSort });
-    this.setState({ selectedSort });
+  handleSort = (selectedSortPath) => {
+    console.log("handle sort " + { selectedSortPath });
+    const orderMap = { asc: true, desc: false };
+    const orderLookup = _(orderMap).invert().value();
+    const currentOrder = orderMap[this.state.sortOrder.order];
+
+    const sortOrder = {
+      path: selectedSortPath,
+      order:
+        selectedSortPath === this.state.sortOrder.path
+          ? orderLookup[!currentOrder]
+          : "asc",
+    };
+    this.setState({ sortOrder });
   };
 
   render() {
@@ -64,7 +75,7 @@ class App extends Component {
       movies,
       pageSize,
       currentPage,
-      selectedSort,
+      sortOrder,
       genres,
       currentGenre,
     } = this.state;
@@ -77,8 +88,8 @@ class App extends Component {
             .value();
 
     const sortedMovies = _(filteredMovies).orderBy(
-      selectedSort.path,
-      selectedSort.order
+      sortOrder.path,
+      sortOrder.order
     );
 
     const pagedMovies = _(sortedMovies)
