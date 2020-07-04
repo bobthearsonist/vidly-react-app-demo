@@ -20,12 +20,12 @@ class Movies extends Component {
   }
 
   columns = [
-    { title: "Title", path: "title" },
-    { title: "Genre", path: "genre.name" },
-    { title: "Stock", path: "numberInStock" },
-    { title: "Rate", path: "dailyRentalRate" },
-    { title: "Liked", path: "liked", sortable: false, hideTitle: true },
-    { title: "Delete", sortable: false, hideTitle: true },
+    { label: "Title", path: "title" },
+    { label: "Genre", path: "genre.name" },
+    { label: "Stock", path: "numberInStock" },
+    { label: "Rate", path: "dailyRentalRate" },
+    { label: "Liked", path: "liked", hideLabel: true },
+    { label: "Delete", sortable: false, hideLabel: true },
   ];
 
   movieTable = ({ movies, onLike, onDelete, sortOrder, onSort }) => {

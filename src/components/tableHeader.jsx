@@ -3,7 +3,7 @@ import _ from "lodash";
 
 export default class TableHeader extends Component {
   handleSort = (selectedSortColumn, currentSortOrder, onSort) => {
-    console.log("handle sort " + selectedSortColumn.title);
+    console.log("handle sort " + selectedSortColumn.label);
 
     const orderMap = { asc: true, desc: false };
     const orderLookup = _(orderMap).invert().value();
@@ -25,7 +25,7 @@ export default class TableHeader extends Component {
         <tr>
           {columns.map((column) => (
             <th
-              key={column.title}
+              key={column.label}
               onClick={
                 column.sortable === true || column.sortable === undefined // TODO substitute for default value
                   ? () => this.handleSort(column, sortOrder, onSort)
@@ -33,7 +33,7 @@ export default class TableHeader extends Component {
               }
               scope="col"
             >
-              {column.hideTitle ? null : column.title}
+              {column.hideLabel ? null : column.label}
             </th>
           ))}
         </tr>
