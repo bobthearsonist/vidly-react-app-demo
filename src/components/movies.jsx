@@ -51,7 +51,7 @@ class Movies extends Component {
     },
   ];
 
-  movieTable = ({ movies, onLike, onDelete, sortOrder, onSort }) => {
+  movieTable = ({ movies, sortOrder, onSort }) => {
     return (
       <React.Fragment>
         <table className="table">

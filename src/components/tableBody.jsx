@@ -3,14 +3,16 @@ import _ from "lodash";
 
 export default class TableBody extends Component {
   render() {
-    const { data, columns } = this.props;
+    const { data, columns, rowKey, columnKey } = this.props;
     return (
       <tbody>
-        {data.map((item, index) => {
+        {data.map((item) => {
           return (
-            <tr key={index}>
-              {columns.map((column, index) => (
-                <td key={index}>{this.renderCell(column, item)}</td>
+            <tr key={item[rowKey]}>
+              {columns.map((column) => (
+                <td key={item[rowKey] + ":" + column[columnKey]}>
+                  {this.renderCell(column, item)}
+                </td>
               ))}
             </tr>
           );
@@ -23,3 +25,8 @@ export default class TableBody extends Component {
     return column.content ? column.content(item) : _.get(item, column.path);
   }
 }
+
+TableBody.defaultProps = {
+  rowKey: "_id",
+  columnKey: "label",
+};
