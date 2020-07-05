@@ -3,7 +3,7 @@ import TableHeader from "./tableHeader";
 import Like from "./like";
 import TableBody from "./tableBody";
 
-class Movies extends Component {
+class MoviesTable extends Component {
   handleLike = (movie, onLike) => {
     console.log("pass like ");
     console.log({ movie });
@@ -65,4 +65,4 @@ class Movies extends Component {
   };
 }
 
-export default Movies;
+export default MoviesTable;
