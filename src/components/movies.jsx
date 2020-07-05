@@ -26,7 +26,6 @@ class Movies extends Component {
     { label: "Stock", path: "numberInStock" },
     { label: "Rate", path: "dailyRentalRate" },
     {
-      label: "Liked",
       path: "liked",
       content: (movie) => (
         <Like
@@ -37,7 +36,6 @@ class Movies extends Component {
       hideLabel: true,
     },
     {
-      label: "Delete",
       content: (movie) => (
         <button
           onClick={() => this.handleDelete(movie.id, this.props.onDelete)}
