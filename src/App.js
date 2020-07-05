@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
-import Movies from "./components/moviesTable";
+import MoviesTable from "./components/moviesTable";
 import { getMovies, deleteMovie } from "./services/fakeMovieService";
 import { getGenres } from "./services/fakeGenreService";
 import Pagination from "./components/pagination";
@@ -61,11 +61,54 @@ class App extends Component {
 
   render() {
     const {
-      movies,
       pageSize,
       currentPage,
       sortOrder,
       genres,
+      currentGenre,
+    } = this.state;
+
+    const { totalCount, pagedMovies } = this.getData();
+
+    return (
+      <main className="container">
+        <div className="row">
+          <div className="col-3">
+            <ListGroup
+              items={genres}
+              onItemSelect={(genre) => this.handleGenreSelect(genre)}
+              selectedItem={currentGenre}
+            />
+          </div>
+          <div className="col">
+            <h2>{totalCount} Movies</h2>
+            <MoviesTable
+              movies={pagedMovies}
+              onLike={(movie) => this.handleLike(movie)}
+              onDelete={(id) => this.handleDelete(id)}
+              sortOrder={sortOrder}
+              onSort={(selectedSort) => this.handleSort(selectedSort)}
+            />
+            <footer>
+              <Pagination
+                itemsCount={totalCount}
+                pageSize={pageSize}
+                currentPage={currentPage}
+                onPageChange={(page) => this.handlePageChange(page)}
+              />
+            </footer>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  getData() {
+    const {
+      movies,
+      pageSize,
+      currentPage,
+      sortOrder,
       currentGenre,
     } = this.state;
 
@@ -86,39 +129,7 @@ class App extends Component {
       .take(pageSize)
       .value();
 
-    const count = filteredMovies.length;
-
-    return (
-      <main className="container">
-        <div className="row">
-          <div className="col-3">
-            <ListGroup
-              items={genres}
-              onItemSelect={(genre) => this.handleGenreSelect(genre)}
-              selectedItem={currentGenre}
-            />
-          </div>
-          <div className="col">
-            <h2>{count} Movies</h2>
-            <Movies
-              movies={pagedMovies}
-              onLike={(movie) => this.handleLike(movie)}
-              onDelete={(id) => this.handleDelete(id)}
-              sortOrder={sortOrder}
-              onSort={(selectedSort) => this.handleSort(selectedSort)}
-            />
-            <footer>
-              <Pagination
-                itemsCount={count}
-                pageSize={pageSize}
-                currentPage={currentPage}
-                onPageChange={(page) => this.handlePageChange(page)}
-              />
-            </footer>
-          </div>
-        </div>
-      </main>
-    );
+    return { totalCount: filteredMovies.length, pagedMovies };
   }
 }
 
