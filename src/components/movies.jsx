@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import TableHeader from "./tableHeader";
 import Like from "./like";
+import TableBody from "./tableBody";
 
 class Movies extends Component {
   handleLike = (movie, onLike) => {
@@ -24,8 +25,30 @@ class Movies extends Component {
     { label: "Genre", path: "genre.name" },
     { label: "Stock", path: "numberInStock" },
     { label: "Rate", path: "dailyRentalRate" },
-    { label: "Liked", path: "liked", hideLabel: true },
-    { label: "Delete", sortable: false, hideLabel: true },
+    {
+      label: "Liked",
+      path: "liked",
+      content: (movie) => (
+        <Like
+          liked={movie.liked}
+          onLike={() => this.handleLike(movie, this.props.onLike)}
+        />
+      ),
+      hideLabel: true,
+    },
+    {
+      label: "Delete",
+      content: (movie) => (
+        <button
+          onClick={() => this.handleDelete(movie.id, this.props.onDelete)}
+          className="btn btn-danger btn-sm"
+        >
+          Delete
+        </button>
+      ),
+      sortable: false,
+      hideLabel: true,
+    },
   ];
 
   movieTable = ({ movies, onLike, onDelete, sortOrder, onSort }) => {
@@ -37,40 +60,7 @@ class Movies extends Component {
             sortOrder={sortOrder}
             onSort={onSort}
           ></TableHeader>
-          <tbody>
-            {movies.map((movie) => {
-              const {
-                _id: id,
-                title,
-                genre,
-                numberInStock: stock,
-                dailyRentalRate: rate,
-                liked = false,
-              } = movie;
-              return (
-                <tr key={id}>
-                  <th scope="row">{title}</th>
-                  <td>{genre.name}</td>
-                  <td>{stock}</td>
-                  <td>{rate}</td>
-                  <td>
-                    <Like
-                      liked={liked}
-                      onLike={() => this.handleLike(movie, onLike)}
-                    ></Like>
-                  </td>
-                  <td>
-                    <button
-                      onClick={() => this.handleDelete(id, onDelete)}
-                      className="btn btn-danger btn-sm"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
+          <TableBody data={movies} columns={this.columns}></TableBody>
         </table>
       </React.Fragment>
     );
