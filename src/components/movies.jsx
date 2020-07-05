@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import MoviesTable from "./moviesTable";
-import ListGroup from "../common/listGroup";
-import Pagination from "../common/pagination";
-import { getMovies, deleteMovie } from "../../services/fakeMovieService";
-import { getGenres } from "../../services/fakeGenreService";
+import ListGroup from "./common/listGroup";
+import Pagination from "./common/pagination";
+import { getMovies, deleteMovie } from "../services/fakeMovieService";
+import { getGenres } from "../services/fakeGenreService";
 import _ from "lodash";
+import Table from "./common/table";
+import Like from "./common/like";
 
 export default class Movies extends Component {
   state = {
@@ -58,6 +59,35 @@ export default class Movies extends Component {
     this.setState({ sortOrder: selectedSortOrder });
   };
 
+  columns = [
+    { label: "Title", path: "title" },
+    { label: "Genre", path: "genre.name" },
+    { label: "Stock", path: "numberInStock" },
+    { label: "Rate", path: "dailyRentalRate" },
+    {
+      path: "liked",
+      content: (movie) => (
+        <Like
+          liked={movie.liked}
+          onLike={() => this.handleLike(movie, this.props.onLike)}
+        />
+      ),
+      hideLabel: true,
+    },
+    {
+      content: (movie) => (
+        <button
+          onClick={() => this.handleDelete(movie._id, this.props.onDelete)}
+          className="btn btn-danger btn-sm"
+        >
+          Delete
+        </button>
+      ),
+      sortable: false,
+      hideLabel: true,
+    },
+  ];
+
   render() {
     const {
       pageSize,
@@ -80,14 +110,22 @@ export default class Movies extends Component {
             />
           </div>
           <div className="col">
-            <h2>{totalCount} Movies</h2>
-            <MoviesTable
-              movies={pagedMovies}
-              onLike={(movie) => this.handleLike(movie)}
-              onDelete={(id) => this.handleDelete(id)}
-              sortOrder={sortOrder}
-              onSort={(selectedSort) => this.handleSort(selectedSort)}
-            />
+            {totalCount === 0 ? (
+              <p>No More Movies</p>
+            ) : (
+              <React.Fragment>
+                <h2>{totalCount} Movies</h2>
+                <Table
+                  columns={this.columns}
+                  data={pagedMovies}
+                  sortOrder={sortOrder}
+                  onSort={(selectedSort) => this.handleSort(selectedSort)}
+                  onDelete={(id) => this.handleDelete(id)}
+                  onLike={(movie) => this.handleLike(movie)}
+                />
+              </React.Fragment>
+            )}
+
             <footer>
               <Pagination
                 itemsCount={totalCount}
