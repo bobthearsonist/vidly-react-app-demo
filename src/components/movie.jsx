@@ -5,13 +5,12 @@ export default function Movie({ match, history }) {
   return (
     <div>
       <h1>Movie Form + {match.params.id}</h1>
-      <button
+      <input
         onClick={() => history.goBack()}
         type="button"
         className="btn btn-primary"
-      >
-        Save
-      </button>
+        value="Save"
+      />
     </div>
   );
 }
