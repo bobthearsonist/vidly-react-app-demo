@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
-import Movies from "./components/movies";
+import MoviesTable from "./components/moviesTable";
 import { getMovies, deleteMovie } from "./services/fakeMovieService";
 import { getGenres } from "./services/fakeGenreService";
 import Pagination from "./components/pagination";
@@ -14,6 +14,7 @@ class App extends Component {
     currentGenre: undefined,
     pageSize: 4,
     currentPage: 1,
+    sortOrder: { path: "title", order: "asc" },
   };
 
   allGenres = { name: "All Genres", _id: "all" };
@@ -53,23 +54,21 @@ class App extends Component {
     this.setState({ currentGenre: genre, currentPage: 1 });
   };
 
+  handleSort = (selectedSortOrder) => {
+    console.log("handle sort");
+    this.setState({ sortOrder: selectedSortOrder });
+  };
+
   render() {
-    const { movies, pageSize, currentPage } = this.state;
-    const { genres, currentGenre } = this.state;
+    const {
+      pageSize,
+      currentPage,
+      sortOrder,
+      genres,
+      currentGenre,
+    } = this.state;
 
-    const filteredMovies =
-      currentGenre === undefined || currentGenre === this.allGenres
-        ? movies
-        : _(movies)
-            .filter((movie) => movie.genre._id === currentGenre._id)
-            .value();
-
-    const pagedMovies = _(filteredMovies)
-      .slice((currentPage - 1) * pageSize)
-      .take(pageSize)
-      .value();
-
-    const count = filteredMovies.length;
+    const { totalCount, pagedMovies } = this.getData();
 
     return (
       <main className="container">
@@ -82,15 +81,17 @@ class App extends Component {
             />
           </div>
           <div className="col">
-            <h2>{count} Movies</h2>
-            <Movies
+            <h2>{totalCount} Movies</h2>
+            <MoviesTable
               movies={pagedMovies}
               onLike={(movie) => this.handleLike(movie)}
               onDelete={(id) => this.handleDelete(id)}
+              sortOrder={sortOrder}
+              onSort={(selectedSort) => this.handleSort(selectedSort)}
             />
             <footer>
               <Pagination
-                itemsCount={count}
+                itemsCount={totalCount}
                 pageSize={pageSize}
                 currentPage={currentPage}
                 onPageChange={(page) => this.handlePageChange(page)}
@@ -100,6 +101,35 @@ class App extends Component {
         </div>
       </main>
     );
+  }
+
+  getData() {
+    const {
+      movies,
+      pageSize,
+      currentPage,
+      sortOrder,
+      currentGenre,
+    } = this.state;
+
+    const filteredMovies =
+      currentGenre === undefined || currentGenre === this.allGenres
+        ? movies
+        : _(movies)
+            .filter((movie) => movie.genre._id === currentGenre._id)
+            .value();
+
+    const sortedMovies = _(filteredMovies).orderBy(
+      sortOrder.path,
+      sortOrder.order
+    );
+
+    const pagedMovies = _(sortedMovies)
+      .slice((currentPage - 1) * pageSize)
+      .take(pageSize)
+      .value();
+
+    return { totalCount: filteredMovies.length, pagedMovies };
   }
 }
 
