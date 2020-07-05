@@ -1,11 +1,25 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function NavBar() {
   return (
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="/">
+      <Link class="navbar-brand" to="/">
         Vidly
-      </a>
+      </Link>
+      <div class="navbar" id="navbarNav">
+        <div class="navbar-nav">
+          <Link class="nav-link" to="/movies">
+            Movies
+          </Link>
+          <Link class="nav-link" to="/customers">
+            Customers
+          </Link>
+          <Link class="nav-link" to="/rentals">
+            Rentals
+          </Link>
+        </div>
+      </div>
     </nav>
   );
 }
