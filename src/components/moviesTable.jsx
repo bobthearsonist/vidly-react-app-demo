@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import TableHeader from "./tableHeader";
 import Like from "./like";
-import TableBody from "./tableBody";
+import Table from "./table";
 
 class MoviesTable extends Component {
   handleLike = (movie, onLike) => {
@@ -52,14 +51,12 @@ class MoviesTable extends Component {
   movieTable = ({ movies, sortOrder, onSort }) => {
     return (
       <React.Fragment>
-        <table className="table">
-          <TableHeader
-            columns={this.columns}
-            sortOrder={sortOrder}
-            onSort={onSort}
-          ></TableHeader>
-          <TableBody data={movies} columns={this.columns}></TableBody>
-        </table>
+        <Table
+          columns={this.columns}
+          data={movies}
+          sortOrder={sortOrder}
+          onSort={onSort}
+        />
       </React.Fragment>
     );
   };
