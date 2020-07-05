@@ -6,6 +6,7 @@ import { getGenres } from "../services/fakeGenreService";
 import _ from "lodash";
 import Table from "./common/table";
 import Like from "./common/like";
+import { Link } from "react-router-dom";
 
 export default class Movies extends Component {
   state = {
@@ -60,7 +61,11 @@ export default class Movies extends Component {
   };
 
   columns = [
-    { label: "Title", path: "title" },
+    {
+      content: (movie) => <Link to={"/movie/" + movie._id}>{movie.title}</Link>,
+      label: "Title",
+      path: "title",
+    },
     { label: "Genre", path: "genre.name" },
     { label: "Stock", path: "numberInStock" },
     { label: "Rate", path: "dailyRentalRate" },
@@ -125,7 +130,6 @@ export default class Movies extends Component {
                 />
               </React.Fragment>
             )}
-
             <footer>
               <Pagination
                 itemsCount={totalCount}
