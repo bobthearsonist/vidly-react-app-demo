@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Like from "./like";
-import Table from "./table";
+import Like from "../common/like";
+import Table from "../common/table";
 
 class MoviesTable extends Component {
   handleLike = (movie, onLike) => {
