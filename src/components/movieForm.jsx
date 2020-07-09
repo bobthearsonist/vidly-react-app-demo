@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function Movie({ match, history }) {
+export default function MovieForm({ match, history }) {
   return (
     <div>
       <h1>Movie Form + {match.params.id}</h1>
