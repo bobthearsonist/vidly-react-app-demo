@@ -6,7 +6,7 @@ export default function MovieForm({ match, history }) {
     <div>
       <h1>Movie Form + {match.params.id}</h1>
       <input
-        onClick={() => history.goBack()}
+        onClick={() => history.push("/movies")}
         type="button"
         className="btn btn-primary"
         value="Save"
