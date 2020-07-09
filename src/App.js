@@ -12,16 +12,16 @@ class App extends Component {
     return (
       <React.Fragment>
         <VidlyNavBar />
-        <div className="content">
+        <main className="content">
           <Switch>
             <Route path="/movies" component={Movies} />
             <Route path="/movie/:id" component={MovieForm} />
             <Route path="/customers" component={Customers} />
             <Route path="/rentals" component={Rentals} />
-            <Redirect exact path="/" to="/movies" />
+            <Redirect exact from="/" to="/movies" />
             <Redirect to="/404" />
           </Switch>
-        </div>
+        </main>
       </React.Fragment>
     );
   }
