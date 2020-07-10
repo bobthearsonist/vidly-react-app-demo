@@ -21,16 +21,18 @@ export default class loginForm extends Component {
   };
 
   handleSubmit = (e) => {
+    const { account } = this.state;
     e.preventDefault();
 
-    const errors = this.validate(this.state.account);
+    const errors = this.validate(account);
     console.log({ errors });
-    this.setState({ errors });
+    errors && this.setState({ errors });
     if (errors) return;
 
-    const username = this.username.current.value;
+    const username = account.username;
     //call the server
-    console.log("login form submitted " + username);
+    console.log("login form submitted");
+    console.log({ account });
   };
 
   handleChange = ({ currentTarget: input }) => {
