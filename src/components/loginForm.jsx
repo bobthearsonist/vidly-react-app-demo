@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Input from "./common/input";
-
+import _ from "lodash";
 const strongRegex = new RegExp(
   "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
 );
@@ -11,16 +11,20 @@ export default class loginForm extends Component {
   };
 
   validate = (account) => {
-    if (account.username.isBlank()) return { username: "Username is required" };
-    if (account.password.isBlank()) return { password: "Password is required" };
+    const errors = {};
+
+    if (_(account.username).isEmpty()) errors.username = "Username is required";
+    if (_(account.password).isEmpty()) errors.password = "Password is required";
     if (!strongRegex.test(account.password))
-      return { password: "password does not meet  requireßments" };
+      errors.password = "password does not meet  requirements";
+    return Object.keys(errors).length === 0 ? null : errors;
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
 
     const errors = this.validate(this.state.account);
+    console.log({ errors });
     this.setState({ errors });
     if (errors) return;
 
