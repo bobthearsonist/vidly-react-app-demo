@@ -21,15 +21,11 @@ export default class loginForm extends Component {
   };
 
   handleSubmit = (e) => {
-    const { account } = this.state;
+    const { account, errors } = this.state;
     e.preventDefault();
 
-    const errors = this.validate(account);
-    console.log({ errors });
-    errors && this.setState({ errors });
     if (errors) return;
 
-    const username = account.username;
     //call the server
     console.log("login form submitted");
     console.log({ account });
@@ -39,6 +35,10 @@ export default class loginForm extends Component {
     const account = { ...this.state.account };
     account[input.name] = input.value;
     this.setState({ account });
+
+    const errors = this.validate(account);
+    console.log({ errors });
+    errors && this.setState({ errors });
   };
 
   render() {
