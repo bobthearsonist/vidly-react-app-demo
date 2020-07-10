@@ -40,7 +40,7 @@ export default class loginForm extends Component {
   };
 
   render() {
-    const { account } = this.state;
+    const { account, errors } = this.state;
     return (
       <div>
         <h1>Login Form</h1>
@@ -50,12 +50,14 @@ export default class loginForm extends Component {
             name="username"
             label="Username"
             value={account.username}
+            error={errors.username}
           />
           <Input
             onChange={this.handleChange}
             name="password"
             label="Password"
             value={account.password}
+            error={errors.password}
           />
           <button className="btn btn-primary">Login</button>
         </form>
