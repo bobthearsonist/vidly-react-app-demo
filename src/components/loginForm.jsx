@@ -1,13 +1,29 @@
 import React, { Component } from "react";
 import Input from "./common/input";
 
+const strongRegex = new RegExp(
+  "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+);
 export default class loginForm extends Component {
   state = {
     account: { username: "", password: "" },
+    errors: {},
+  };
+
+  validate = (account) => {
+    if (account.username.isBlank()) return { username: "Username is required" };
+    if (account.password.isBlank()) return { password: "Password is required" };
+    if (!strongRegex.test(account.password))
+      return { password: "password does not meet  requireßments" };
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
+
+    const errors = this.validate(this.state.account);
+    this.setState({ errors });
+    if (errors) return;
+
     const username = this.username.current.value;
     //call the server
     console.log("login form submitted " + username);
