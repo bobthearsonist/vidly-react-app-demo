@@ -4,25 +4,42 @@ import _ from "lodash";
 const strongRegex = new RegExp(
   "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
 );
+const USERNAME_REQUIRED = "Username is required";
 export default class loginForm extends Component {
   state = {
     account: { username: "", password: "" },
     errors: {},
   };
 
-  validate = (account) => {
-    const errors = {};
+  validations = {
+    USERNAME_REQUIRED: (username, errors) => {
+      if (_(username.trim()).isEmpty()) errors.username = USERNAME_REQUIRED;
+      else delete errors.username;
+      return errors;
+    },
+    PASSWORD_STRONG: (password, errors) => {
+      if (!strongRegex.test(password))
+        errors.password = "password does not meet requirements";
+      else delete errors.password;
+      return errors;
+    },
+  };
 
-    if (_(account.username).isEmpty()) errors.username = "Username is required";
+  validate = (account) => {
+    let errors = {};
+    errors = this.validations.USERNAME_REQUIRED(account.username, errors);
+    errors = this.validations.PASSWORD_STRONG(account.password, errors);
     if (_(account.password).isEmpty()) errors.password = "Password is required";
-    if (!strongRegex.test(account.password))
-      errors.password = "password does not meet  requirements";
     return Object.keys(errors).length === 0 ? null : errors;
   };
 
   handleSubmit = (e) => {
-    const { account, errors } = this.state;
+    const { account } = this.state;
     e.preventDefault();
+
+    const errors = this.validate(account);
+    console.log({ errors });
+    errors && this.setState({ errors });
 
     if (errors) return;
 
@@ -31,14 +48,22 @@ export default class loginForm extends Component {
     console.log({ account });
   };
 
+  validateProperty = (input, errors) => {
+    if (input.name === "username") {
+      this.validations.USERNAME_REQUIRED(input.value, errors);
+    }
+    if (input.name === "password") {
+      this.validations.PASSWORD_STRONG(input.value, errors);
+    }
+    return errors[input.name];
+  };
+
   handleChange = ({ currentTarget: input }) => {
+    const errors = { ...this.state.errors };
+    errors[input.name] = this.validateProperty(input, errors);
     const account = { ...this.state.account };
     account[input.name] = input.value;
-    this.setState({ account });
-
-    const errors = this.validate(account);
-    console.log({ errors });
-    errors && this.setState({ errors });
+    this.setState({ account, errors });
   };
 
   render() {
