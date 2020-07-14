@@ -4,7 +4,6 @@ import _ from "lodash";
 const strongRegex = new RegExp(
   "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
 );
-const USERNAME_REQUIRED = "Username is required";
 export default class loginForm extends Component {
   state = {
     account: { username: "", password: "" },
@@ -13,13 +12,21 @@ export default class loginForm extends Component {
 
   validations = {
     USERNAME_REQUIRED: (username, errors) => {
-      if (_(username.trim()).isEmpty()) errors.username = USERNAME_REQUIRED;
+      if (_(username.trim()).isEmpty())
+        errors.username = "Username is required";
       else delete errors.username;
+      return errors;
+    },
+    PASSWORD_REQUIRED: (password, errors) => {
+      if (_(password.trim()).isEmpty())
+        errors.password = "Password is required";
+      else delete errors.password;
       return errors;
     },
     PASSWORD_STRONG: (password, errors) => {
       if (!strongRegex.test(password))
-        errors.password = "password does not meet requirements";
+        errors.password =
+          "Password must contain one of each of the following [A-Za-z!@#$%^&*]";
       else delete errors.password;
       return errors;
     },
@@ -29,7 +36,7 @@ export default class loginForm extends Component {
     let errors = {};
     errors = this.validations.USERNAME_REQUIRED(account.username, errors);
     errors = this.validations.PASSWORD_STRONG(account.password, errors);
-    if (_(account.password).isEmpty()) errors.password = "Password is required";
+    errors = this.validations.PASSWORD_REQUIRED(account.password, errors);
     return Object.keys(errors).length === 0 ? null : errors;
   };
 
@@ -48,14 +55,15 @@ export default class loginForm extends Component {
     console.log({ account });
   };
 
-  validateProperty = (input, errors) => {
-    if (input.name === "username") {
-      this.validations.USERNAME_REQUIRED(input.value, errors);
+  validateProperty = ({ name, value }, errors) => {
+    if (name === "username") {
+      errors = this.validations.USERNAME_REQUIRED(value, errors);
     }
-    if (input.name === "password") {
-      this.validations.PASSWORD_STRONG(input.value, errors);
+    if (name === "password") {
+      errors = this.validations.PASSWORD_STRONG(value, errors);
+      errors = this.validations.PASSWORD_STRONG(value, errors);
     }
-    return errors[input.name];
+    return errors[name];
   };
 
   handleChange = ({ currentTarget: input }) => {
