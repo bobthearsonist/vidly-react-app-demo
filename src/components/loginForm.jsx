@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Input from "./common/input";
 import _ from "lodash";
+import Joi from "@hapi/joi";
 const strongRegex = new RegExp(
   "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
 );
@@ -9,6 +10,11 @@ export default class loginForm extends Component {
     account: { username: "", password: "" },
     errors: {},
   };
+
+  schema = Joi.object({
+    username: Joi.string().required().min(3).max(20),
+    password: Joi.string().required().min(8).pattern(strongRegex),
+  });
 
   validations = {
     USERNAME_REQUIRED: (username, errors) => {
@@ -32,19 +38,27 @@ export default class loginForm extends Component {
     },
   };
 
-  validate = (account) => {
-    let errors = {};
-    errors = this.validations.USERNAME_REQUIRED(account.username, errors);
-    errors = this.validations.PASSWORD_STRONG(account.password, errors);
-    errors = this.validations.PASSWORD_REQUIRED(account.password, errors);
-    return Object.keys(errors).length === 0 ? null : errors;
+  validate = () => {
+    const validations = this.schema.validate(this.state.account, {
+      abortEarly: false,
+    });
+
+    if (!validations.error) return null;
+
+    return Object.fromEntries(
+      validations.error.details.map((validation) => [
+        validation.path[0],
+        validation.message,
+      ])
+    );
   };
 
   handleSubmit = (e) => {
     const { account } = this.state;
     e.preventDefault();
 
-    const errors = this.validate(account);
+    const errors = this.validate();
+
     console.log({ errors });
     errors && this.setState({ errors });
 

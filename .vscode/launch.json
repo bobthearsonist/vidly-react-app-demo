@@ -9,10 +9,10 @@
       "request": "launch",
       "name": "Launch Chrome against localhost",
       "url": "http://localhost:3000",
-      "webRoot": "${workspaceFolder}",
-      "runtimeArgs": [
-        "--load-extension=~/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.7.0_0"
-      ]
+      "webRoot": "${workspaceFolder}"
+      // "runtimeArgs": [
+      //   "--load-extension=~/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.7.0_0"
+      // ]
     }
   ]
 }
