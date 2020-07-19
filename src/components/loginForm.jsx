@@ -43,17 +43,14 @@ export default class loginForm extends Component {
   };
 
   validate = () => {
-    const validations = this.schema.validate(this.state.account, {
+    const { error: errors } = this.schema.validate(this.state.account, {
       abortEarly: false,
     });
 
-    if (!validations.error) return null;
+    if (!errors) return null;
 
     return Object.fromEntries(
-      validations.error.details.map((validation) => [
-        validation.path[0],
-        validation.message,
-      ])
+      errors.details.map((error) => [error.path[0], error.message])
     );
   };
 
