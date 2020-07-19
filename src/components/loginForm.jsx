@@ -12,8 +12,12 @@ export default class loginForm extends Component {
   };
 
   schema = Joi.object({
-    username: Joi.string().required().min(3).max(20),
-    password: Joi.string().required().min(8).pattern(strongRegex),
+    username: Joi.string().required().min(3).max(20).label("Username"),
+    password: Joi.string()
+      .required()
+      .min(8)
+      .pattern(strongRegex)
+      .label("Password"),
   });
 
   validations = {
