@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Input from "./common/input";
-import _ from "lodash";
 import Joi from "@hapi/joi";
+import _ from "lodash";
 const strongRegex = new RegExp(
   "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
 );
@@ -11,43 +11,38 @@ export default class loginForm extends Component {
     errors: {},
   };
 
-  schema = Joi.object({
+  schema = {
     username: Joi.string().required().min(3).max(20).label("Username"),
     password: Joi.string()
       .required()
       .min(8)
       .pattern(strongRegex)
       .label("Password"),
-  });
-
-  validations = {
-    USERNAME_REQUIRED: (username, errors) => {
-      if (_(username.trim()).isEmpty())
-        errors.username = "Username is required";
-      else delete errors.username;
-      return errors;
-    },
-    PASSWORD_REQUIRED: (password, errors) => {
-      if (_(password.trim()).isEmpty())
-        errors.password = "Password is required";
-      else delete errors.password;
-      return errors;
-    },
-    PASSWORD_STRONG: (password, errors) => {
-      if (!strongRegex.test(password))
-        errors.password =
-          "Password must contain one of each of the following [A-Za-z!@#$%^&*]";
-      else delete errors.password;
-      return errors;
-    },
   };
 
   validate = () => {
-    const { error: errors } = this.schema.validate(this.state.account, {
-      abortEarly: false,
-    });
+    const options = { abortEarly: false };
+    const { error: errors } = Joi.object(this.schema).validate(
+      this.state.account,
+      options
+    );
 
     if (!errors) return null;
+
+    return Object.fromEntries(
+      errors.details.map((error) => [error.path[0], error.message])
+    );
+  };
+
+  validateProperty = ({ name, value }) => {
+    const options = { abortEarly: false };
+    const schema = { [name]: this.schema[name] };
+    const object = { [name]: value };
+    const { error: errors } = Joi.object(schema).validate(object, options);
+
+    console.log({ errors });
+
+    if (_(errors).isNil()) return {};
 
     return Object.fromEntries(
       errors.details.map((error) => [error.path[0], error.message])
@@ -70,20 +65,8 @@ export default class loginForm extends Component {
     console.log({ account });
   };
 
-  validateProperty = ({ name, value }, errors) => {
-    if (name === "username") {
-      errors = this.validations.USERNAME_REQUIRED(value, errors);
-    }
-    if (name === "password") {
-      errors = this.validations.PASSWORD_STRONG(value, errors);
-      errors = this.validations.PASSWORD_STRONG(value, errors);
-    }
-    return errors[name];
-  };
-
   handleChange = ({ currentTarget: input }) => {
-    const errors = { ...this.state.errors };
-    errors[input.name] = this.validateProperty(input, errors);
+    const errors = this.validateProperty(input);
     const account = { ...this.state.account };
     account[input.name] = input.value;
     this.setState({ account, errors });
@@ -100,14 +83,14 @@ export default class loginForm extends Component {
             name="username"
             label="Username"
             value={account.username}
-            error={errors.username}
+            error={errors["username"]}
           />
           <Input
             onChange={this.handleChange}
             name="password"
             label="Password"
             value={account.password}
-            error={errors.password}
+            error={errors["password"]}
           />
           <button className="btn btn-primary">Login</button>
         </form>
