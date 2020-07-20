@@ -1,24 +1,21 @@
 import React from "react";
 
 export default function Input({
-  onChange,
   name,
   label,
-  value,
   error,
-  type = "text",
+  type = "string",
+  ...rest
 }) {
   return (
     <div className="form-group">
       <label htmlFor={name}>{label}</label>
       <input
-        autoFocus
-        id={name}
+        {...rest}
         name={name}
-        className="form-control"
         type={type}
-        value={value}
-        onChange={onChange}
+        autoFocus
+        className="form-control"
       />
       {error && <div className="alert alert-danger">{error}</div>}
     </div>
