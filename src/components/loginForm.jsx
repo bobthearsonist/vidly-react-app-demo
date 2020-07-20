@@ -20,7 +20,7 @@ export default class LoginForm extends BaseForm {
 
   fields = [
     { name: "username", label: "Username", default: "" },
-    { name: "password", label: "Password", default: "" },
+    { name: "password", label: "Password", type: "password", default: "" },
   ];
 
   label = "Login";

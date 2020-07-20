@@ -65,6 +65,7 @@ export default class Form extends Component {
   renderInput = (field, index, data, errors) => {
     return (
       <Input
+        type={field.type}
         key={field.name + index}
         onChange={this.handleChange}
         name={field.name}
