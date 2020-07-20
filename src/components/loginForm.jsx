@@ -28,6 +28,5 @@ export default class LoginForm extends BaseForm {
   doSubmit = ({ data: account }) => {
     //call the server
     console.log("login form submitted");
-    console.log({ account });
   };
 }

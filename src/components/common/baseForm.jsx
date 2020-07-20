@@ -1,7 +1,6 @@
 import Form from "./form";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import LoginForm from "../loginForm";
 
 export default class BaseForm extends Component {
   state = {

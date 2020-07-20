@@ -4,11 +4,15 @@ import _ from "lodash";
 import Input from "./input";
 
 export default class Form extends Component {
-  validate = ({ schema, data }) => {
+  validate = () => {
+    const { schema, data } = this.props;
+
     const options = { abortEarly: false };
     const { error: errors } = Joi.object(schema).validate(data, options);
 
     if (!errors) return null;
+
+    console.log({ errors });
 
     return Object.fromEntries(
       errors.details.map((error) => [error.path[0], error.message])
@@ -25,9 +29,9 @@ export default class Form extends Component {
       options
     );
 
-    console.log({ errors });
-
     if (_(errors).isNil()) return {};
+
+    console.log({ errors });
 
     return Object.fromEntries(
       errors.details.map((error) => [error.path[0], error.message])
@@ -50,26 +54,35 @@ export default class Form extends Component {
     onChange({ data: updatedData, errors });
   };
 
+  renderButton = (label) => {
+    return (
+      <button className="btn btn-primary" disabled={this.validate()}>
+        {label}
+      </button>
+    );
+  };
+
+  renderInput = (field, index, data, errors) => {
+    return (
+      <Input
+        key={field.name + index}
+        onChange={this.handleChange}
+        name={field.name}
+        label={field.label}
+        value={data[field.name]}
+        error={errors[field.name]}
+      />
+    );
+  };
+
   render() {
-    const { data, schema, fields, errors, buttonLabel } = this.props;
+    const { data, errors, fields, buttonLabel } = this.props;
     return (
       <form onSubmit={this.handleSubmit}>
-        {fields.map((field, index) => (
-          <Input
-            key={field.name + index}
-            onChange={this.handleChange}
-            name={field.name}
-            label={field.label}
-            value={data[field.name]}
-            error={errors[field.name]}
-          />
-        ))}
-        <button
-          className="btn btn-primary"
-          disabled={this.validate({ data: data, schema: schema })}
-        >
-          {buttonLabel}
-        </button>
+        {fields.map((field, index) =>
+          this.renderInput(field, index, data, errors)
+        )}
+        {this.renderButton(buttonLabel)}
       </form>
     );
   }
