@@ -51,7 +51,7 @@ export default class Form extends Component {
   };
 
   render() {
-    const { data, schema, fields, errors } = this.props;
+    const { data, schema, fields, errors, buttonLabel } = this.props;
     return (
       <form onSubmit={this.handleSubmit}>
         {fields.map((field, index) => (
@@ -68,7 +68,7 @@ export default class Form extends Component {
           className="btn btn-primary"
           disabled={this.validate({ data: data, schema: schema })}
         >
-          Login
+          {buttonLabel}
         </button>
       </form>
     );

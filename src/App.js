@@ -6,7 +6,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import Customers from "./components/customers";
 import Rentals from "./components/rentals";
 import MovieForm from "./components/movieForm";
-import loginForm from "./components/loginForm";
+import LoginForm from "./components/loginForm";
 
 class App extends Component {
   render() {
@@ -15,7 +15,7 @@ class App extends Component {
         <VidlyNavBar />
         <main className="content">
           <Switch>
-            <Route path="/login" component={loginForm}></Route>
+            <Route path="/login" component={LoginForm}></Route>
             <Route path="/movies" component={Movies} />
             <Route path="/movie/:id" component={MovieForm} />
             <Route path="/customers" component={Customers} />
