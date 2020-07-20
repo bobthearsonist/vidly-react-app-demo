@@ -3,7 +3,7 @@ import Input from "./common/input";
 import Joi from "@hapi/joi";
 import _ from "lodash";
 const strongRegex = new RegExp(
-  "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+  "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])"
 );
 export default class loginForm extends Component {
   state = {
@@ -12,11 +12,14 @@ export default class loginForm extends Component {
   };
 
   schema = {
-    username: Joi.string().required().min(3).max(20).label("Username"),
+    username: Joi.string().required().min(3).max(20).token().label("Username"),
     password: Joi.string()
       .required()
       .min(8)
       .pattern(strongRegex)
+      .message(
+        "Must contain at least one number, one uppercase letter, one lowercase letter, and a symbol [!@#$%^&*]"
+      )
       .label("Password"),
   };
 
