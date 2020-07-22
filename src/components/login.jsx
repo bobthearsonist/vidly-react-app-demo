@@ -1,56 +1,25 @@
 import React from "react";
 import LoginForm from "./loginForm";
 import RegisterForm from "./registerForm";
+import { NavTab } from "react-router-tabs";
+import { Switch, Route, Redirect } from "react-router-dom";
 
-export default function Login() {
+export default function Login({ match, history }) {
   return (
     <React.Fragment>
-      <ul className="nav nav-tabs" id="myTab" role="tablist">
-        <li className="nav-item">
-          <a
-            className="nav-link active"
-            id="login-tab"
-            data-toggle="tab"
-            href="#login"
-            role="tab"
-            aria-controls="login"
-            aria-selected="true"
-          >
-            Login
-          </a>
-        </li>
-        <li className="nav-item">
-          <a
-            className="nav-link"
-            id="register-tab"
-            data-toggle="tab"
-            href="#register"
-            role="tab"
-            aria-controls="register"
-            aria-selected="false"
-          >
-            Register
-          </a>
-        </li>
+      <ul className="nav nav-tabs">
+        <NavTab className="nav nav-link" to={`${match.path}/login-form`}>
+          Login
+        </NavTab>
+        <NavTab className="nav nav-link" to={`${match.path}/register-form`}>
+          Register
+        </NavTab>
       </ul>
-      <div className="tab-content" id="myTabContent">
-        <div
-          className="tab-pane fade show active"
-          id="login"
-          role="tabpanel"
-          aria-labelledby="login-tab"
-        >
-          <LoginForm />
-        </div>
-        <div
-          className="tab-pane fade"
-          id="register"
-          role="tabpanel"
-          aria-labelledby="register-tab"
-        >
-          <RegisterForm />
-        </div>
-      </div>
+      <Switch>
+        <Redirect exact from="/login/" to={`${match.path}/login-form`} />
+        <Route path={`${match.path}/login-form`} component={LoginForm} />
+        <Route path={`${match.path}/register-form`} component={RegisterForm} />
+      </Switch>
     </React.Fragment>
   );
 }

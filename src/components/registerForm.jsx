@@ -3,16 +3,16 @@ import UserForm from "./userForm";
 
 export default class RegisterForm extends UserForm {
   schema = {
-    ...super.schema,
-    name: Joi.string().required().trim().label("Username"),
+    ...this.schema,
+    name: Joi.string().required().label("Name"),
   };
 
-  //fields = [...super.fields, { name: "name", label: "Name", default: "" }];
+  fields = [...this.fields, { name: "name", label: "Name", default: "" }];
 
   label = "Register";
 
   doSubmit = ({ data: account }) => {
     //call the server
-    console.log("login form submitted");
+    console.log("registration form submitted");
   };
 }
