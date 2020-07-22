@@ -35,7 +35,6 @@ export default class BaseForm extends Component {
     const { data, errors } = this.state;
     return (
       <div>
-        <h1>{`${this.label} Form`}</h1>
         <Form
           onSubmit={(data) => this.handleSubmit(data)}
           onChange={(data, errors) => this.handleChange(data, errors)}
