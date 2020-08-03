@@ -62,7 +62,11 @@ export default class Movies extends Component {
 
   columns = [
     {
-      content: (movie) => <Link to={`/movie/${movie._id}`}>{movie.title}</Link>,
+      content: (movie) => (
+        <Link to={{ pathname: `/movie/${movie._id}`, state: { movie } }}>
+          {movie.title}
+        </Link>
+      ),
       label: "Title",
       path: "title",
     },

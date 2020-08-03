@@ -1,18 +1,45 @@
-import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import BaseForm from "./common/baseForm";
+import Joi from "@hapi/joi";
+import { useParams, useNavigate } from "react-router-dom";
 
-export default function MovieForm() {
-  const params = useParams();
-  const navigate = useNavigate();
-  return (
-    <div>
-      <h1>Movie Form + {params.id}</h1>
-      <input
-        onClick={() => navigate("/movies")}
-        type="button"
-        className="btn btn-primary"
-        value="Save"
-      />
-    </div>
-  );
+export default class MovieForm extends BaseForm {
+  fields = [
+    { name: "title", label: "Title" },
+    { name: "genreId", label: "Genre" },
+    {
+      name: "numberInStock",
+      label: "Stock",
+    },
+    {
+      name: "dailyRentalRate",
+      label: "Rate",
+    },
+  ];
+
+  state = {
+    data: Object.fromEntries(this.fields.map((field) => [field.name, ""])),
+    errors: {},
+  };
+
+  onComponentDidMount = () => {
+    const params = useParams();
+    const { movie } = this.props;
+    this.setState({ movie });
+  };
+
+  schema = {
+    title: Joi.string().required().label("Title"),
+    genre: Joi.string().required().label("Genre"),
+    stock: Joi.number().integer().positive().required().label("Stock"),
+    rate: Joi.number().required().precision(2).label("Rate"),
+  };
+
+  label = "Save";
+
+  doSubmit = () => {
+    const navigate = useNavigate();
+    const { data, errors } = this.state;
+    console.log({ data, errors });
+    navigate("/movies");
+  };
 }
