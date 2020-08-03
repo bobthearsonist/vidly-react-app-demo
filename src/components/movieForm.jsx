@@ -21,9 +21,16 @@ export default class MovieForm extends BaseForm {
     errors: {},
   };
 
+  newMovie = {
+    title: null,
+    genre: { name: "" },
+    numberInStock: 0,
+    dailyRentalRate: 0.0,
+  };
+
   onComponentDidMount = () => {
     const params = useParams();
-    const { movie } = this.props;
+    const { movie = this.newMovie } = this.props;
     this.setState({ movie });
   };
 

@@ -1,5 +1,6 @@
 import React from "react";
 import Table from "./common/table";
+import { useNavigate } from "react-router-dom";
 
 export default function MoviesTable({
   onSort,
@@ -9,6 +10,7 @@ export default function MoviesTable({
   movies,
   ...rest
 }) {
+  const navigate = useNavigate();
   return (
     <React.Fragment>
       <div className="row">
@@ -17,6 +19,14 @@ export default function MoviesTable({
         </div>
         <div className="col">
           <span>Movies Available</span>
+        </div>
+        <div className="col">
+          <button
+            onClick={() => navigate("/movie/newmovie")}
+            className="btn btn-primary pull-right"
+          >
+            NewMovie
+          </button>
         </div>
       </div>
       <Table

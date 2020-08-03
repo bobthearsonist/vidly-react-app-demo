@@ -87,7 +87,7 @@ export default class Movies extends Component {
       content: (movie) => (
         <button
           onClick={() => this.handleDelete(movie._id, this.props.onDelete)}
-          className="btn btn-danger btn-sm"
+          className="btn btn-danger btn-sm pull-right"
         >
           Delete
         </button>

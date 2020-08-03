@@ -17,6 +17,7 @@ function App() {
         <Routes>
           <Route path="/login/*" element={<Login />} />
           <Route path="/movies" element={<Movies />} />
+          <Route path="/movie/newmovie" element={<MovieForm />} />
           <Route path="/movie/:id" element={<MovieForm />} />
           <Route path="/customers" element={<Customers />} />
           <Route path="/rentals" element={<Rentals />} />
