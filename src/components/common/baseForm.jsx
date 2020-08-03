@@ -10,7 +10,7 @@ export default class BaseForm extends Component {
 
   componentDidMount() {
     const data = Object.fromEntries(
-      this.fields.map((field) => [field.name, field.default])
+      this.fields().map((field) => [field.name, field.default])
     );
     this.setState({ data });
   }
@@ -38,7 +38,7 @@ export default class BaseForm extends Component {
         <Form
           onSubmit={(data) => this.handleSubmit(data)}
           onChange={(data, errors) => this.handleChange(data, errors)}
-          fields={this.fields}
+          fields={this.fields()}
           data={data}
           errors={errors}
           schema={this.schema}
@@ -51,11 +51,11 @@ export default class BaseForm extends Component {
 
 Form.propTypes = {
   schema: PropTypes.object.isRequired,
-  fields: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string,
-      name: PropTypes.string,
-      default: PropTypes.any,
-    })
-  ).isRequired,
+  // fields: PropTypes.arrayOf(
+  //   PropTypes.shape({
+  //     label: PropTypes.string,
+  //     name: PropTypes.string,
+  //     default: PropTypes.any,
+  //   })
+  // ).isRequired,
 };

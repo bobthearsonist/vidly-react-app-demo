@@ -21,13 +21,15 @@ export default class UserForm extends BaseForm {
       .label("Password"),
   };
 
-  fields = [
-    { name: "username", label: "Username", default: "" },
-    {
-      name: "password",
-      label: "Password",
-      type: "password",
-      default: "",
-    },
-  ];
+  fields = () => {
+    return [
+      { name: "username", label: "Username", default: "" },
+      {
+        name: "password",
+        label: "Password",
+        type: "password",
+        default: "",
+      },
+    ];
+  };
 }

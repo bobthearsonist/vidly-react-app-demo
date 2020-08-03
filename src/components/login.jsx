@@ -1,6 +1,6 @@
 import React from "react";
-import LoginForm from "./loginForm";
-import RegisterForm from "./registerForm";
+import LoginForm from "./loginExistingUserForm";
+import RegisterForm from "./loginRegisterForm";
 import { NavTab } from "react-router-tabs";
 import { Switch, Route, Redirect } from "react-router-dom";
 
