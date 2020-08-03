@@ -43,10 +43,11 @@ export default class MovieForm extends BaseForm {
 
   label = "Save";
 
-  doSubmit = () => {
+  doSubmit = (data) => {
     const navigate = useNavigate();
-    const { data, errors } = this.state;
+    const { errors } = this.state;
     console.log({ data, errors });
+    this.onSave(data);
     navigate("/movies");
   };
 }

@@ -36,6 +36,11 @@ export default class Movies extends Component {
     this.setState({ movies: getMovies() });
   };
 
+  handleSave = (movie) => {
+    console.log("handle save");
+    console.log({ movie });
+  };
+
   handleLike = (movie) => {
     console.log("handle like " + movie.id);
     const movies = [...this.state.movies];
@@ -63,7 +68,15 @@ export default class Movies extends Component {
   columns = [
     {
       content: (movie) => (
-        <Link to={{ pathname: `/movie/${movie._id}`, state: { movie } }}>
+        <Link
+          to={{
+            pathname: `/movie/${movie._id}`,
+            onSave: (newMovie) => this.handleSave(newMovie),
+            state: {
+              movie,
+            },
+          }}
+        >
           {movie.title}
         </Link>
       ),
@@ -122,6 +135,7 @@ export default class Movies extends Component {
               onSort={(selectedSort) => this.handleSort(selectedSort)}
               onDelete={(id) => this.handleDelete(id)}
               onLike={(movie) => this.handleLike(movie)}
+              onSave={(newMovie) => this.handleSave(newMovie)}
             />
             <footer>
               <Pagination

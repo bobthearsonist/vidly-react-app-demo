@@ -1,16 +1,16 @@
 import React from "react";
 import Table from "./common/table";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function MoviesTable({
   onSort,
   onDelete,
   onLike,
+  onSave,
   count,
   movies,
   ...rest
 }) {
-  const navigate = useNavigate();
   return (
     <React.Fragment>
       <div className="row">
@@ -21,12 +21,18 @@ export default function MoviesTable({
           <span>Movies Available</span>
         </div>
         <div className="col">
-          <button
-            onClick={() => navigate("/movie/newmovie")}
+          <Link
+            to={{
+              pathname: "/movie/newmovie",
+              onSave: (newMovie) => this.handleSave(newMovie),
+              state: {
+                movie: null,
+              },
+            }}
             className="btn btn-primary pull-right"
           >
             NewMovie
-          </button>
+          </Link>
         </div>
       </div>
       <Table
