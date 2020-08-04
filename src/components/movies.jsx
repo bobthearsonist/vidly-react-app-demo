@@ -25,13 +25,23 @@ export default class Movies extends Component {
   allGenres = { name: "All Genres", _id: "all" };
 
   componentDidMount() {
-    const genres = [this.allGenres, ...getGenres()];
-    const currentGenre = this.allGenres;
-    this.setState({
-      movies: getMovies(),
-      genres,
-      currentGenre,
-    });
+    const rehydrate = JSON.parse(localStorage.getItem("someSavedState"));
+
+    if (!_(rehydrate).isEmpty()) {
+      this.setState(rehydrate);
+    } else {
+      const genres = [this.allGenres, ...getGenres()];
+      const currentGenre = this.allGenres;
+      this.setState({
+        movies: getMovies(),
+        genres,
+        currentGenre,
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    localStorage.setItem("state", JSON.stringify(this.state));
   }
 
   handleDelete = (movieId) => {
