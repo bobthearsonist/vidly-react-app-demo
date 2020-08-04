@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import ListGroup from "./common/listGroup";
 import Pagination from "./common/pagination";
-import { getMovies, deleteMovie } from "../services/fakeMovieService";
+import {
+  getMovies,
+  deleteMovie,
+  saveMovie,
+} from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
 import _ from "lodash";
 import Like from "./common/like";
@@ -36,9 +40,22 @@ export default class Movies extends Component {
     this.setState({ movies: getMovies() });
   };
 
-  handleSave = (movie) => {
+  handleSave = ({
+    _id,
+    title,
+    genre,
+    stock: numberInStock,
+    rate: dailyRentalRate,
+  }) => {
     console.log("handle save");
-    console.log({ movie });
+    saveMovie({
+      _id,
+      title,
+      genre,
+      numberInStock,
+      dailyRentalRate,
+    });
+    this.setState({ movies: getMovies() });
   };
 
   handleLike = (movie) => {
