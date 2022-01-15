@@ -8,6 +8,7 @@ const Movie = (props) => {
     numberInStock,
     dailyRentalRate,
     liked,
+    onLike,
   } = props;
   return (
     <tr key={id}>
@@ -16,7 +17,7 @@ const Movie = (props) => {
       <td>{numberInStock}</td>
       <td>{dailyRentalRate}</td>
       <td>
-        <Like liked={liked} onClick={() => props.nLike(id)}></Like>
+        <Like liked={liked} onClick={() => onLike(id)}></Like>
       </td>
       <td>
         <button
