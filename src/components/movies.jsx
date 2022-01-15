@@ -96,7 +96,7 @@ class Movies extends Component {
             <div className="col">
               <MoviesTable
                 movies={data}
-                onLiked={(id) => this.handleLiked(id)}
+                onLike={(id) => this.handleLiked(id)}
                 onDelete={(id) => this.handleDelete(id)}
                 onSort={(sort) => this.handleSort(sort)}
                 currentSort={currentSort}
