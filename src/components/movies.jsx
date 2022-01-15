@@ -3,6 +3,7 @@ import { getMovies } from "../services/fakeMovieService";
 import Pagination from "./common/pagination";
 import Movie from "./movie";
 import _ from "lodash";
+import { getGenres } from "../services/fakeGenreService";
 
 class Movies extends Component {
   state = {
@@ -10,6 +11,7 @@ class Movies extends Component {
     pageSize: 3,
     currentPage: 1,
     sortBy: "Title",
+    genres: getGenres(),
   };
 
   handleDelete = (id) => {
@@ -39,46 +41,60 @@ class Movies extends Component {
 
     return (
       <React.Fragment>
-        <div className="row">
-          <div className="col-1">
-            <span className="badge bg-secondary">{count}</span>
+        <span className="container">
+          <div className="row">
+            <div className="col-2">
+              <ul className="list-group">
+                <button className="list-group-item-action">All Genres</button>
+                {this.state.genres.map((g) => (
+                  <button className="list-group-item-action">{g.name}</button>
+                ))}
+              </ul>
+            </div>
+            <div className="col">
+              <div className="row">
+                <div className="col-1">
+                  <span className="badge bg-secondary">{count}</span>
+                </div>
+                <div className="col">
+                  <span>Movies Available</span>
+                </div>
+              </div>
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Genre</th>
+                    <th>Stock</th>
+                    <th>Rate</th>
+                    <th>Like</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {_(this.state.movies)
+                    .slice(pageSize * (currentPage - 1))
+                    .take(pageSize)
+                    .value()
+                    .map((movie) => (
+                      <Movie
+                        {...movie}
+                        key={movie._id}
+                        id={movie._id}
+                        onDelete={(id) => this.handleDelete(id)}
+                        onLike={(id) => this.handleLiked(id)}
+                      />
+                    ))}
+                </tbody>
+              </table>
+              <Pagination
+                itemsCount={count}
+                pageSize={pageSize}
+                currentPage={currentPage}
+                onPageChange={(page) => this.handlePageChange(page)}
+              />
+            </div>
           </div>
-          <div className="col">
-            <span>Movies Available</span>
-          </div>
-        </div>
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Genre</th>
-              <th>Stock</th>
-              <th>Rate</th>
-              <th>Like</th>
-            </tr>
-          </thead>
-          <tbody>
-            {_(this.state.movies)
-              .slice(pageSize * (currentPage - 1))
-              .take(pageSize)
-              .value()
-              .map((movie) => (
-                <Movie
-                  {...movie}
-                  key={movie._id}
-                  id={movie._id}
-                  onDelete={(id) => this.handleDelete(id)}
-                  onLike={(id) => this.handleLiked(id)}
-                />
-              ))}
-          </tbody>
-        </table>
-        <Pagination
-          itemsCount={count}
-          pageSize={pageSize}
-          currentPage={currentPage}
-          onPageChange={(page) => this.handlePageChange(page)}
-        />
+        </span>
       </React.Fragment>
     );
   }
