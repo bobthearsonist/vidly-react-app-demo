@@ -4,19 +4,24 @@ import Pagination from "./common/pagination";
 import Movie from "./movie";
 import _ from "lodash";
 import { getGenres } from "../services/fakeGenreService";
+import ListGroup from "./common/listGroup";
 
 class Movies extends Component {
   state = {
-    movies: getMovies(),
-    pageSize: 3,
+    movies: [],
+    pageSize: 5,
     currentPage: 1,
     sortBy: "Title",
-    genres: getGenres(),
+    genres: [],
     currentGenre: this.allGenres,
     currentSort: { path: "title", order: "asc" },
   };
 
   allGenres = { name: "All Genres", _id: "all" };
+
+  componentDidMount() {
+    this.setState({ movies: getMovies(), genres: getGenres() });
+  }
 
   handleDelete = (id) => {
     const movies = this.state.movies.filter((m) => m._id !== id);
@@ -90,24 +95,11 @@ class Movies extends Component {
         <span className="container">
           <div className="row">
             <div className="col-2">
-              <ul className="list-group">
-                <button
-                  type="button"
-                  className="list-group-item list-group-item-action"
-                  onClick={() => this.handleGenreSelect("All")}
-                >
-                  All Genres
-                </button>
-                {this.state.genres.map((g) => (
-                  <button
-                    type="button"
-                    onClick={(g) => this.handleGenreSelect(g.name)}
-                    className="list-group-item list-group-item-action"
-                  >
-                    {g.name}
-                  </button>
-                ))}
-              </ul>
+              <ListGroup
+                items={this.state.genres}
+                selectedItem={this.state.currentGenre}
+                onItemSelect={(genre) => this.handleGenreSelect(genre)}
+              />
             </div>
             <div className="col">
               <div className="row">
