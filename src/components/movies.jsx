@@ -47,8 +47,8 @@ class Movies extends Component {
     this.setState({ currentGenre });
   };
 
-  handleSort = (sortColumn) => {
-    this.setState({ sortColumn });
+  handleSort = (currentSort) => {
+    this.setState({ currentSort });
   };
 
   getData = () => {
@@ -98,7 +98,7 @@ class Movies extends Component {
                 movies={data}
                 onLiked={(id) => this.handleLiked(id)}
                 onDelete={(id) => this.handleDelete(id)}
-                onSort={(path) => this.handleSort(path)}
+                onSort={(sort) => this.handleSort(sort)}
                 currentSort={currentSort}
               />
               <Pagination

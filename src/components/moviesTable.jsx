@@ -1,19 +1,8 @@
 import React, { Component } from "react";
 import Movie from "./movie";
+import TableHeader from "./common/tableHeader";
 
 class MoviesTable extends Component {
-  raiseSort = (path) => {
-    let { currentSort } = this.props;
-
-    if (currentSort.path === path) {
-      currentSort.order = currentSort.order === "asc" ? "desc" : "asc";
-    } else {
-      currentSort = { path: path, order: "asc" };
-    }
-
-    this.props.onSort(currentSort);
-  };
-
   render() {
     const { onSort, onDelete, onLiked, movies, currentSort } = this.props;
 
@@ -28,15 +17,17 @@ class MoviesTable extends Component {
           </div>
         </div>
         <table className="table">
-          <thead>
-            <tr>
-              <th onClick={() => this.raiseSort("title")}>Title</th>
-              <th onClick={() => this.raiseSort("genre._id")}>Genre</th>
-              <th onClick={() => this.raiseSort("numberInStock")}>Stock</th>
-              <th onClick={() => this.raiseSort("dailyRentalRate")}>Rate</th>
-              <th onClick={() => this.raiseSort("like")}>Like</th>
-            </tr>
-          </thead>
+          <TableHeader
+            onSort={onSort}
+            currentSort={currentSort}
+            data={[
+              { text: "Title", path: "title" },
+              { text: "Genre", path: "genre._id" },
+              { text: "Stock", path: "numberInStock" },
+              { text: "Rate", path: "dailyRentalRate" },
+              { text: "Like", path: "like" },
+            ]}
+          />
           <tbody>
             {movies.movies.map((movie) => (
               <Movie
