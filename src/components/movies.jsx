@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { getMovies } from "../services/fakeMovieService";
 import Pagination from "./common/pagination";
-import Movie from "./movie";
 import _ from "lodash";
 import { getGenres } from "../services/fakeGenreService";
 import ListGroup from "./common/listGroup";
+import MoviesTable from "./moviesTable";
 
 class Movies extends Component {
   state = {
@@ -47,20 +47,8 @@ class Movies extends Component {
     this.setState({ currentGenre });
   };
 
-  handleSort = (field) => {
-    const determineSortOrder = () => {
-      return this.state.currentSort[1] === "asc" ? "desc" : "asc";
-    };
-
-    const currentSort = [
-      field,
-      this.state.currentSort[0] === field ? determineSortOrder() : "asc",
-    ];
-
-    console.log(currentSort);
-
-    this.setState({ currentSort });
-    this.handlePageChange(1);
+  handleSort = (sortColumn) => {
+    this.setState({ sortColumn });
   };
 
   getData = () => {
@@ -74,7 +62,11 @@ class Movies extends Component {
             .filter((movie) => movie.genre._id === currentGenre._id)
             .value();
 
-    const sortedMovies = _(filteredMovies).orderBy(currentSort);
+    console.log(currentSort);
+    const sortedMovies = _(filteredMovies).orderBy(
+      currentSort.path,
+      currentSort.order
+    );
 
     const pagedMovies = _(sortedMovies)
       .slice(pageSize * (currentPage - 1))
@@ -85,10 +77,10 @@ class Movies extends Component {
   };
 
   render() {
-    const { count, movies } = this.getData();
-    const { pageSize, currentPage, sortBy } = this.state;
+    const data = this.getData();
+    const { pageSize, currentPage, currentSort } = this.state;
 
-    if (count === 0) return <p> No Movies Available</p>;
+    if (data.count === 0) return <p> No Movies Available</p>;
 
     return (
       <React.Fragment>
@@ -102,42 +94,15 @@ class Movies extends Component {
               />
             </div>
             <div className="col">
-              <div className="row">
-                <div className="col-1">
-                  <span className="badge bg-secondary">{count}</span>
-                </div>
-                <div className="col">
-                  <span>Movies Available</span>
-                </div>
-              </div>
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th onClick={() => this.handleSort("title")}>Title</th>
-                    <th onClick={() => this.handleSort("genre._id")}>Genre</th>
-                    <th onClick={() => this.handleSort("numberInStock")}>
-                      Stock
-                    </th>
-                    <th onClick={() => this.handleSort("dailyRentalRate")}>
-                      Rate
-                    </th>
-                    <th onClick={() => this.handleSort("like")}>Like</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {movies.map((movie) => (
-                    <Movie
-                      {...movie}
-                      key={movie._id}
-                      id={movie._id}
-                      onDelete={(id) => this.handleDelete(id)}
-                      onLike={(id) => this.handleLiked(id)}
-                    />
-                  ))}
-                </tbody>
-              </table>
+              <MoviesTable
+                movies={data}
+                onLiked={(id) => this.handleLiked(id)}
+                onDelete={(id) => this.handleDelete(id)}
+                onSort={(path) => this.handleSort(path)}
+                currentSort={currentSort}
+              />
               <Pagination
-                itemsCount={count}
+                itemsCount={data.count}
                 pageSize={pageSize}
                 currentPage={currentPage}
                 onPageChange={(page) => this.handlePageChange(page)}
