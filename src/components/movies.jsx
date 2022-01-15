@@ -12,7 +12,11 @@ class Movies extends Component {
     currentPage: 1,
     sortBy: "Title",
     genres: getGenres(),
+    currentGenre: this.allGenres,
+    currentSort: { path: "title", order: "asc" },
   };
+
+  allGenres = { name: "All Genres", _id: "all" };
 
   handleDelete = (id) => {
     const movies = this.state.movies.filter((m) => m._id !== id);
@@ -33,6 +37,48 @@ class Movies extends Component {
     this.setState({ currentPage });
   };
 
+  handleGenreSelect = (genre) => {
+    const currentGenre = genre;
+    this.setState({ currentGenre });
+  };
+
+  handleSort = (field) => {
+    const determineSortOrder = () => {
+      return this.state.currentSort[1] === "asc" ? "desc" : "asc";
+    };
+
+    const currentSort = [
+      field,
+      this.state.currentSort[0] === field ? determineSortOrder() : "asc",
+    ];
+
+    console.log(currentSort);
+
+    this.setState({ currentSort });
+    this.handlePageChange(1);
+  };
+
+  getData = () => {
+    const { currentGenre, pageSize, currentPage, movies, currentSort } =
+      this.state;
+
+    const filteredMovies =
+      currentGenre === undefined || currentGenre === this.allGenres
+        ? movies
+        : _(movies)
+            .filter((movie) => movie.genre._id === currentGenre._id)
+            .value();
+
+    const sortedMovies = _(filteredMovies).orderBy(currentSort);
+
+    const pagedMovies = _(sortedMovies)
+      .slice(pageSize * (currentPage - 1))
+      .take(pageSize)
+      .value();
+
+    return pagedMovies;
+  };
+
   render() {
     const { length: count } = this.state.movies;
     const { pageSize, currentPage, sortBy } = this.state;
@@ -45,9 +91,21 @@ class Movies extends Component {
           <div className="row">
             <div className="col-2">
               <ul className="list-group">
-                <button className="list-group-item-action">All Genres</button>
+                <button
+                  type="button"
+                  className="list-group-item list-group-item-action"
+                  onClick={() => this.handleGenreSelect("All")}
+                >
+                  All Genres
+                </button>
                 {this.state.genres.map((g) => (
-                  <button className="list-group-item-action">{g.name}</button>
+                  <button
+                    type="button"
+                    onClick={(g) => this.handleGenreSelect(g.name)}
+                    className="list-group-item list-group-item-action"
+                  >
+                    {g.name}
+                  </button>
                 ))}
               </ul>
             </div>
@@ -63,27 +121,27 @@ class Movies extends Component {
               <table className="table">
                 <thead>
                   <tr>
-                    <th>Title</th>
-                    <th>Genre</th>
-                    <th>Stock</th>
-                    <th>Rate</th>
-                    <th>Like</th>
+                    <th onClick={() => this.handleSort("title")}>Title</th>
+                    <th onClick={() => this.handleSort("genre._id")}>Genre</th>
+                    <th onClick={() => this.handleSort("numberInStock")}>
+                      Stock
+                    </th>
+                    <th onClick={() => this.handleSort("dailyRentalRate")}>
+                      Rate
+                    </th>
+                    <th onClick={() => this.handleSort("like")}>Like</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {_(this.state.movies)
-                    .slice(pageSize * (currentPage - 1))
-                    .take(pageSize)
-                    .value()
-                    .map((movie) => (
-                      <Movie
-                        {...movie}
-                        key={movie._id}
-                        id={movie._id}
-                        onDelete={(id) => this.handleDelete(id)}
-                        onLike={(id) => this.handleLiked(id)}
-                      />
-                    ))}
+                  {this.getData().map((movie) => (
+                    <Movie
+                      {...movie}
+                      key={movie._id}
+                      id={movie._id}
+                      onDelete={(id) => this.handleDelete(id)}
+                      onLike={(id) => this.handleLiked(id)}
+                    />
+                  ))}
                 </tbody>
               </table>
               <Pagination
