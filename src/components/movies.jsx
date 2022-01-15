@@ -81,11 +81,11 @@ class Movies extends Component {
       .take(pageSize)
       .value();
 
-    return pagedMovies;
+    return { movies: pagedMovies, count: filteredMovies.length };
   };
 
   render() {
-    const { length: count } = this.state.movies;
+    const { count, movies } = this.getData();
     const { pageSize, currentPage, sortBy } = this.state;
 
     if (count === 0) return <p> No Movies Available</p>;
@@ -96,7 +96,7 @@ class Movies extends Component {
           <div className="row">
             <div className="col-2">
               <ListGroup
-                items={this.state.genres}
+                items={[this.allGenres, ...this.state.genres]}
                 selectedItem={this.state.currentGenre}
                 onItemSelect={(genre) => this.handleGenreSelect(genre)}
               />
@@ -125,7 +125,7 @@ class Movies extends Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {this.getData().map((movie) => (
+                  {movies.map((movie) => (
                     <Movie
                       {...movie}
                       key={movie._id}
