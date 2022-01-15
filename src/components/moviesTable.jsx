@@ -26,6 +26,7 @@ class MoviesTable extends Component {
               { text: "Stock", path: "numberInStock" },
               { text: "Rate", path: "dailyRentalRate" },
               { text: "Like", path: "like" },
+              {},
             ]}
           />
           <tbody>

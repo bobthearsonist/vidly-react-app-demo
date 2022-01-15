@@ -10,7 +10,7 @@ class TableHeader extends Component {
       currentSort = { path: path, order: "asc" };
     }
 
-    this.props.onSort(currentSort);
+    if (path) this.props.onSort(currentSort);
   };
 
   render() {
@@ -20,7 +20,9 @@ class TableHeader extends Component {
       <thead>
         <tr>
           {data.map((item) => (
-            <th onClick={() => this.raiseSort(item.path)}>{item.text}</th>
+            <th key={item.path} onClick={() => this.raiseSort(item.path)}>
+              {item.text}
+            </th>
           ))}
         </tr>
       </thead>
