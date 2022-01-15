@@ -20,7 +20,10 @@ class TableHeader extends Component {
       <thead>
         <tr>
           {data.map((item) => (
-            <th key={item.path} onClick={() => this.raiseSort(item.path)}>
+            <th
+              key={item.path || item.key}
+              onClick={() => this.raiseSort(item.path)}
+            >
               {item.text}
             </th>
           ))}
