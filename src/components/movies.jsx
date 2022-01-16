@@ -28,7 +28,7 @@ class Movies extends Component {
     this.setState({ movies });
   };
 
-  handleLiked = (id) => {
+  handleLike = (id) => {
     const movies = [...this.state.movies];
     const index = movies.findIndex((m) => m._id === id);
     movies[index] = { ...movies[index] };
@@ -44,10 +44,13 @@ class Movies extends Component {
 
   handleGenreSelect = (genre) => {
     const currentGenre = genre;
+    console.log(currentGenre);
     this.setState({ currentGenre });
   };
 
   handleSort = (currentSort) => {
+    console.log(currentSort);
+
     this.setState({ currentSort });
   };
 
@@ -62,7 +65,6 @@ class Movies extends Component {
             .filter((movie) => movie.genre._id === currentGenre._id)
             .value();
 
-    console.log(currentSort);
     const sortedMovies = _(filteredMovies).orderBy(
       currentSort.path,
       currentSort.order
@@ -73,14 +75,14 @@ class Movies extends Component {
       .take(pageSize)
       .value();
 
-    return { movies: pagedMovies, count: filteredMovies.length };
+    return { data: pagedMovies, count: filteredMovies.length };
   };
 
   render() {
-    const data = this.getData();
+    const { data: movies, count } = this.getData();
     const { pageSize, currentPage, currentSort } = this.state;
 
-    if (data.count === 0) return <p> No Movies Available</p>;
+    if (count === 0) return <p> No Movies Available</p>;
 
     return (
       <React.Fragment>
@@ -95,14 +97,15 @@ class Movies extends Component {
             </div>
             <div className="col">
               <MoviesTable
-                movies={data}
-                onLike={(id) => this.handleLiked(id)}
+                movies={movies}
+                count={count}
+                onLike={(id) => this.handleLike(id)}
                 onDelete={(id) => this.handleDelete(id)}
                 onSort={(sort) => this.handleSort(sort)}
                 currentSort={currentSort}
               />
               <Pagination
-                itemsCount={data.count}
+                itemsCount={count}
                 pageSize={pageSize}
                 currentPage={currentPage}
                 onPageChange={(page) => this.handlePageChange(page)}

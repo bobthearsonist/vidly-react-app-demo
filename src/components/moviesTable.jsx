@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import Like from "./common/like";
-import TableHeader from "./common/tableHeader";
-import TableBody from "./common/tableBody";
+import Table from "./common/table";
 
 class MoviesTable extends Component {
   render() {
-    const { onSort, onDelete, onLike, movies, currentSort } = this.props;
+    const { onSort, onDelete, onLike, movies, currentSort, count } = this.props;
 
     const columns = [
       { path: "title", label: "Title" },
@@ -42,32 +41,20 @@ class MoviesTable extends Component {
       <React.Fragment>
         <div className="row">
           <div className="col-1">
-            <span className="badge bg-secondary">{movies.count}</span>
+            <span className="badge bg-secondary">{count}</span>
           </div>
           <div className="col">
             <span>Movies Available</span>
           </div>
         </div>
-        <table className="table">
-          <TableHeader
-            onSort={onSort}
-            currentSort={currentSort}
-            data={[
-              { text: "Title", path: "title" },
-              { text: "Genre", path: "genre._id" },
-              { text: "Stock", path: "numberInStock" },
-              { text: "Rate", path: "dailyRentalRate" },
-              { text: "Like", path: "like" },
-              { key: "delete" },
-            ]}
-          />
-          <TableBody
-            data={movies.movies.map((movie) => ({ ...movie, id: movie._id }))}
-            columns={columns}
-            onDelete={onDelete}
-            onLike={onLike}
-          />
-        </table>
+        <Table
+          data={movies.map((movie) => ({ ...movie, key: movie._id }))}
+          columns={columns}
+          currentSort={currentSort}
+          onSort={(movie) => onSort(movie)}
+          onDelete={(movie) => onDelete(movie)}
+          onLike={(movie) => onLike(movie)}
+        />
       </React.Fragment>
     );
   }

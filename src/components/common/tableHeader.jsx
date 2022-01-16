@@ -13,18 +13,35 @@ class TableHeader extends Component {
     if (path) this.props.onSort(currentSort);
   };
 
+  renderSortArrow = (item, currentSort) => {
+    if (currentSort.path !== item.path) return "";
+
+    return (
+      <i
+        className={
+          currentSort.order === "asc"
+            ? "fa fa-arrow-circle-up"
+            : "fa fa-arrow-circle-down"
+        }
+        aria-hidden="true"
+      />
+    );
+  };
+
   render() {
-    const { data } = this.props;
+    const { data, currentSort } = this.props;
 
     return (
       <thead>
         <tr>
           {data.map((item) => (
             <th
+              className="clickable"
               key={item.path || item.key}
               onClick={() => this.raiseSort(item.path)}
             >
-              {item.text}
+              {item.label}
+              {this.renderSortArrow(item, currentSort)}
             </th>
           ))}
         </tr>
