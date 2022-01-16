@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Like from "./common/like";
 import Table from "./common/table";
+import { PropTypes } from "prop-types";
 
 class MoviesTable extends Component {
   render() {
@@ -59,5 +60,16 @@ class MoviesTable extends Component {
     );
   }
 }
+
+MoviesTable.propTypes = {
+  onSort: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onLike: PropTypes.func.isRequired,
+
+  movies: PropTypes.arrayOf(PropTypes.object).isRequired,
+
+  currentSort: PropTypes.object.isRequired,
+  count: PropTypes.number.isRequired,
+};
 
 export default MoviesTable;
