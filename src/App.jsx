@@ -13,9 +13,9 @@ function App() {
           <Route path="/movies" component={Movies} />
           <Route path="/customers" component={NotFound} />
           <Route path="/rentals" component={NotFound} />
-          <Redirect from="/" to="/movies" />
-          <Redirect to="notfound" />
           <Route path="/notfound" component={NotFound} />
+          <Redirect from="/" exact to="/movies" />
+          <Redirect to="/notfound" />
         </Switch>
       </div>
     </main>
