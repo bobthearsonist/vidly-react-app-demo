@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 export default class NavBar extends Component {
   render() {
-    // const { path } = this.props;
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
@@ -23,15 +22,15 @@ export default class NavBar extends Component {
           </button>
           <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div className="navbar-nav">
-              <Link className="nav-link" aria-current="page" to="/movies">
+              <NavLink className="nav-link" aria-current="page" to="/movies">
                 Movies
-              </Link>
-              <Link className="nav-link" to="/customers">
+              </NavLink>
+              <NavLink className="nav-link" to="/customers">
                 Customers
-              </Link>
-              <Link className="nav-link" to="/rentals">
+              </NavLink>
+              <NavLink className="nav-link" to="/rentals">
                 Rentals
-              </Link>
+              </NavLink>
             </div>
           </div>
         </div>
