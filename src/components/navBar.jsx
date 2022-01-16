@@ -29,10 +29,10 @@ export default class NavBar extends Component {
               >
                 Movies
               </Link>
-              <Link className="nav-link disabled" to="/customers">
+              <Link className="nav-link" to="/customers">
                 Customers
               </Link>
-              <Link className="nav-link disabled" to="/rentals">
+              <Link className="nav-link" to="/rentals">
                 Rentals
               </Link>
             </div>

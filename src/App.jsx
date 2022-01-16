@@ -11,8 +11,8 @@ function App() {
       <div className="content">
         <Switch>
           <Route path="/movies" component={Movies} />
-          <Route path="/customers" component={NotFound} />
-          <Route path="/rentals" component={NotFound} />
+          <Route path="/customers" component={Customers} />
+          <Route path="/rentals" component={Rentals} />
           <Route path="/notfound" component={NotFound} />
           <Redirect from="/" exact to="/movies" />
           <Redirect to="/notfound" />
@@ -20,6 +20,13 @@ function App() {
       </div>
     </main>
   );
+}
+
+function Customers() {
+  return <h1>Customers</h1>;
+}
+function Rentals() {
+  return <h1>Rentals</h1>;
 }
 
 export default App;
