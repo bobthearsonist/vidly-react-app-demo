@@ -10,6 +10,7 @@ function App() {
       <NavBar />
       <div className="content">
         <Switch>
+          <Route path="/movie/:id" component={Movie} />
           <Route path="/movies" component={Movies} />
           <Route path="/customers" component={Customers} />
           <Route path="/rentals" component={Rentals} />
@@ -27,6 +28,17 @@ function Customers() {
 }
 function Rentals() {
   return <h1>Rentals</h1>;
+}
+
+function Movie({ match, history }) {
+  return (
+    <>
+      <h1>Movie Form {match.params.id}</h1>
+      <button className="btn btn-primary" onClick={() => history.goBack()}>
+        Save
+      </button>
+    </>
+  );
 }
 
 export default App;
