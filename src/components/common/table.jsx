@@ -2,8 +2,14 @@ import React from "react";
 import TableHeader from "./tableHeader";
 import TableBody from "./tableBody";
 
-export default function Table(props) {
-  const { currentSort, onSort, onDelete, onLike, data, columns } = props;
+export default function Table({
+  currentSort,
+  onSort,
+  onDelete,
+  onLike,
+  data,
+  columns,
+}) {
   return (
     <table className="table">
       <TableHeader onSort={onSort} currentSort={currentSort} data={columns} />

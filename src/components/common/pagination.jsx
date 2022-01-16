@@ -1,8 +1,7 @@
 import PropTypes from "prop-types";
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
-const Pagination = (props) => {
-  const { itemsCount, pageSize, currentPage, onPageChange } = props;
+const Pagination = ({ itemsCount, pageSize, currentPage, onPageChange }) => {
   return (
     <nav>
       <ul className="pagination">
