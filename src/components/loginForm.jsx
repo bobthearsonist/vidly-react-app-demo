@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Form from "./common/form";
 
 export default class LoginForm extends Component {
   state = {
@@ -17,45 +18,32 @@ export default class LoginForm extends Component {
     console.log("login submitted");
   };
 
+  loginFields = [
+    {
+      autofocus: true,
+      label: "Username",
+      id: "username",
+      type: "text",
+    },
+    {
+      label: "Password",
+      id: "password",
+      type: "password",
+    },
+  ];
+
   render() {
     const { account } = this.state;
     return (
       <div>
         <h1>Login</h1>
-        <form onSubmit={(e) => this.handleSubmit(e)}>
-          <div className="mb-3">
-            <label className="form-label" htmlFor="username">
-              Username
-            </label>
-            <input
-              className="form-control"
-              autoFocus
-              value={account.username}
-              onChange={(e) => this.handleChange(e)}
-              id="username"
-              label="Username"
-              name="username"
-              type="text"
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label" htmlFor="password">
-              Password
-            </label>
-            <input
-              className="form-control"
-              value={account.password}
-              onChange={(e) => this.handleChange(e)}
-              id="password"
-              label="Password"
-              name="password"
-              type="password"
-            />
-          </div>
-          <button type="submit" className="btn btn-primary">
-            Login
-          </button>
-        </form>
+        <Form
+          onSubmit={(e) => this.handleSubmit(e)}
+          onChange={(e) => this.handleChange(e)}
+          data={account}
+          fields={this.loginFields}
+          submitText="Login"
+        />
       </div>
     );
   }
