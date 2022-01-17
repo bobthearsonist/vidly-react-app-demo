@@ -21,6 +21,7 @@ function Input({ id, label, onChange, autofocus, value, type }) {
     </div>
   );
 
+  // eslint-disable-next-line no-unreachable
   Input.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
