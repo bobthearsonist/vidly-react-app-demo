@@ -14,15 +14,16 @@ export default class LoginForm extends Component {
   };
 
   validatePassword = (password) => {
+    let errors = [];
     if (password.length <= 3)
-      return "password length must be greater than 3 characters";
-    return null;
+      errors = ["password length must be greater than 3 characters"];
+    return errors;
   };
 
   validateUsername = (username) => {
-    let errors = {};
+    let errors = [];
     if (username.length <= 3)
-      errors = "username length must be greater than 3 characters";
+      errors = ["password length must be greater than 3 characters"];
     return errors;
   };
 
@@ -39,16 +40,17 @@ export default class LoginForm extends Component {
 
     errors[input] = error;
 
-    this.setState({ errors });
+    this.setState({
+      errors: errors,
+    });
   };
 
   handleChange = ({ currentTarget: input }) => {
     const account = { ...this.state.account };
     account[input.name] = input.value;
 
-    this.validate(input.name);
-
     this.setState({ account });
+    this.validate(input.name);
   };
 
   handleSubmit = (e) => {
@@ -58,7 +60,7 @@ export default class LoginForm extends Component {
 
     this.validateAll();
 
-    if (this.state.errors.length !== 0) return;
+    if (this.state.errors.keys().length !== 0) return;
 
     console.log("login submitted");
   };

@@ -1,5 +1,6 @@
 import React from "react";
 import { PropTypes } from "prop-types";
+import _ from "lodash";
 
 function Input({ id, label, onChange, autofocus, value, type, errors }) {
   console.log(errors);
@@ -19,7 +20,7 @@ function Input({ id, label, onChange, autofocus, value, type, errors }) {
         type={type}
         key={id + "input"}
       />
-      {errors && <div className="alert alert-danger">{errors}</div>}
+      {!_.isEmpty(errors) && <div className="alert alert-danger">{errors}</div>}
     </div>
   );
 
