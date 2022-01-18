@@ -22,11 +22,7 @@ export default function Form({
           errors={errors[field.id]}
         />
       ))}
-      <button
-        type="submit"
-        className="btn btn-primary"
-        disabled={_.isEmpty(errors)}
-      >
+      <button type="submit" className="btn btn-primary" disabled={errors}>
         {submitText}
       </button>
     </form>

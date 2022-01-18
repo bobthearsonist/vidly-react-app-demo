@@ -1,11 +1,17 @@
 import React, { Component } from "react";
 import Form from "./common/form";
 import _ from "lodash";
+import Joi from "joi-browser";
 
 export default class LoginForm extends Component {
   state = {
     account: { username: "", password: "" },
     errors: {},
+  };
+
+  schema = {
+    username: Joi.string().required().min(3),
+    password: Joi.string().required().min(3),
   };
 
   validators = {
@@ -28,20 +34,29 @@ export default class LoginForm extends Component {
   };
 
   validateAll = () => {
-    const { account: data } = this.state;
-    _(data)
-      .keys()
-      .each((input) => this.validate(input));
+    const { errors, account } = this.state;
+    const result = Joi.validate(this.state.account, this.schema, {
+      abortEarly: false,
+    });
+    _(result.error.details).for(({ path, message }) => {
+      errors[path[0]] = message;
+    });
+    this.setState({ errors });
   };
 
-  validate = (input) => {
-    const { account: data, errors } = this.state;
-    let error = this.validators[input](data[input]);
+  validate = ({ name, value }) => {
+    const { errors } = this.state;
+    const { error } = Joi.validate(
+      { [name]: value },
+      { [name]: this.schema[name] }
+    );
 
-    errors[input] = error;
+    _.isEmpty(error)
+      ? _(errors).unset(name)
+      : (errors[name] = error.details[0].message);
 
     this.setState({
-      errors: errors,
+      errors,
     });
   };
 
@@ -49,8 +64,9 @@ export default class LoginForm extends Component {
     const account = { ...this.state.account };
     account[input.name] = input.value;
 
+    this.validate({ name: input.name, value: input.value });
+
     this.setState({ account });
-    this.validate(input.name);
   };
 
   handleSubmit = (e) => {
