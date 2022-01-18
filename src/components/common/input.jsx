@@ -1,7 +1,8 @@
 import React from "react";
 import { PropTypes } from "prop-types";
 
-function Input({ id, label, onChange, autofocus, value, type }) {
+function Input({ id, label, onChange, autofocus, value, type, errors }) {
+  console.log(errors);
   return (
     <div className="mb-3" key={id + "form field"}>
       <label className="form-label" htmlFor={id} key={id + "label"}>
@@ -18,6 +19,7 @@ function Input({ id, label, onChange, autofocus, value, type }) {
         type={type}
         key={id + "input"}
       />
+      {errors && <div className="alert alert-danger">{errors}</div>}
     </div>
   );
 

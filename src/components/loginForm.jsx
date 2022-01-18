@@ -14,35 +14,40 @@ export default class LoginForm extends Component {
   };
 
   validatePassword = (password) => {
-    let errors = {};
     if (password.length <= 3)
-      errors = "password length must be greater than 3 characters";
-    return errors;
+      return "password length must be greater than 3 characters";
+    return null;
   };
 
   validateUsername = (username) => {
     let errors = {};
     if (username.length <= 3)
-      errors = "password length must be greater than 3 characters";
+      errors = "username length must be greater than 3 characters";
     return errors;
   };
 
-  validate = () => {
+  validateAll = () => {
     const { account: data } = this.state;
-    const errors = _(data)
+    _(data)
       .keys()
-      .map((input) => {
-        let error = this.validators[input](data[input]);
-        if (!_(error).isEmpty()) return { [input]: error };
-      })
-      .value()
-      .filter(Boolean);
+      .each((input) => this.validate(input));
+  };
+
+  validate = (input) => {
+    const { account: data, errors } = this.state;
+    let error = this.validators[input](data[input]);
+
+    errors[input] = error;
+
     this.setState({ errors });
   };
 
   handleChange = ({ currentTarget: input }) => {
     const account = { ...this.state.account };
     account[input.name] = input.value;
+
+    this.validate(input.name);
+
     this.setState({ account });
   };
 
@@ -51,7 +56,7 @@ export default class LoginForm extends Component {
 
     console.log("login clicked");
 
-    this.validate();
+    this.validateAll();
 
     if (this.state.errors.length !== 0) return;
 
@@ -73,7 +78,7 @@ export default class LoginForm extends Component {
   ];
 
   render() {
-    const { account } = this.state;
+    const { account, errors } = this.state;
     return (
       <div>
         <h1>Login</h1>
@@ -81,6 +86,7 @@ export default class LoginForm extends Component {
           onSubmit={(e) => this.handleSubmit(e)}
           onChange={(e) => this.handleChange(e)}
           data={account}
+          errors={errors}
           fields={this.loginFields}
           submitText="Login"
         />
