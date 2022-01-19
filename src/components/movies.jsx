@@ -7,6 +7,7 @@ import _ from "lodash";
 import Table from "./common/table";
 import Like from "./common/like";
 import { Link } from "react-router-dom";
+import MoviesTable from "./moviesTable";
 
 export default class Movies extends Component {
   state = {
@@ -94,18 +95,13 @@ export default class Movies extends Component {
   ];
 
   render() {
-    const {
-      pageSize,
-      currentPage,
-      sortOrder,
-      genres,
-      currentGenre,
-    } = this.state;
+    const { pageSize, currentPage, genres, currentGenre, sortOrder } =
+      this.state;
 
-    const { totalCount, pagedMovies } = this.getData();
+    const { totalCount: count, pagedMovies: movies } = this.getData();
 
     return (
-      <main className="container">
+      <main className="container-fluid">
         <div className="row">
           <div className="col-3">
             <ListGroup
@@ -115,24 +111,18 @@ export default class Movies extends Component {
             />
           </div>
           <div className="col">
-            {totalCount === 0 ? (
-              <p>No More Movies</p>
-            ) : (
-              <React.Fragment>
-                <h2>{totalCount} Movies</h2>
-                <Table
-                  columns={this.columns}
-                  data={pagedMovies}
-                  sortOrder={sortOrder}
-                  onSort={(selectedSort) => this.handleSort(selectedSort)}
-                  onDelete={(id) => this.handleDelete(id)}
-                  onLike={(movie) => this.handleLike(movie)}
-                />
-              </React.Fragment>
-            )}
+            <MoviesTable
+              movies={movies}
+              count={count}
+              columns={this.columns}
+              sortOrder={sortOrder}
+              onSort={(selectedSort) => this.handleSort(selectedSort)}
+              onDelete={(id) => this.handleDelete(id)}
+              onLike={(movie) => this.handleLike(movie)}
+            />
             <footer>
               <Pagination
-                itemsCount={totalCount}
+                itemsCount={count}
                 pageSize={pageSize}
                 currentPage={currentPage}
                 onPageChange={(page) => this.handlePageChange(page)}
@@ -145,13 +135,8 @@ export default class Movies extends Component {
   }
 
   getData() {
-    const {
-      movies,
-      pageSize,
-      currentPage,
-      sortOrder,
-      currentGenre,
-    } = this.state;
+    const { movies, pageSize, currentPage, sortOrder, currentGenre } =
+      this.state;
 
     const filteredMovies =
       currentGenre === undefined || currentGenre === this.allGenres

@@ -8,7 +8,7 @@ export default function Input({
   ...rest
 }) {
   return (
-    <div className="form-group">
+    <div className="mb-3">
       <label htmlFor={name}>{label}</label>
       <input
         {...rest}
