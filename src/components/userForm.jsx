@@ -1,10 +1,7 @@
 import Joi from "@hapi/joi";
 import BaseForm from "./common/baseForm";
 
-const strongPasswordRegex = new RegExp(
-  "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])"
-);
-
+const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\d])(?=.*[!@#$%^&*])/;
 export default class UserForm extends BaseForm {
   schema = {
     username: Joi.string()

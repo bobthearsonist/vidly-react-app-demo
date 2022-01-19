@@ -4,7 +4,7 @@ import RegisterForm from "./registerForm";
 import { NavTab } from "react-router-tabs";
 import { Switch, Route, Redirect } from "react-router-dom";
 
-export default function Login({ match, history }) {
+export default function Login({ match }) {
   return (
     <React.Fragment>
       <ul className="nav nav-tabs">
