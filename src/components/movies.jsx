@@ -101,7 +101,7 @@ export default class Movies extends Component {
     const { totalCount: count, pagedMovies: movies } = this.getData();
 
     return (
-      <main className="container">
+      <main className="container-fluid">
         <div className="row">
           <div className="col-3">
             <ListGroup
