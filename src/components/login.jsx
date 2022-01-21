@@ -1,7 +1,7 @@
 import React from "react";
 import LoginForm from "./loginForm";
 import RegisterForm from "./registerForm";
-import { Route, Routes, Outlet, Link } from "react-router-dom";
+import { Route, Routes, Link } from "react-router-dom";
 
 export default function Login() {
   return (
