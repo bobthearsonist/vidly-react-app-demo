@@ -4,7 +4,6 @@ import Pagination from "./common/pagination";
 import { getMovies, deleteMovie } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
 import _ from "lodash";
-import Table from "./common/table";
 import Like from "./common/like";
 import { Link } from "react-router-dom";
 import MoviesTable from "./moviesTable";

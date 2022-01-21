@@ -1,13 +1,19 @@
 import React, { Component } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default class NavBar extends Component {
-  state = { expand: false };
+  state = { collapse: true };
 
   handleExpand = () => {
-    const expand = !this.state.expand;
+    const collapse = !this.state.collapse;
 
-    this.setState({ expand });
+    this.setState({ collapse });
+  };
+
+  onComponentDidMount = () => {
+    const { collapse } = true;
+
+    this.setState({ collapse });
   };
 
   render() {
@@ -28,23 +34,25 @@ export default class NavBar extends Component {
           </button>
           <div
             className={
-              this.state.expand ? "collapse navbar-collapse" : "navbar-collapse"
+              this.state.collapse
+                ? "collapse navbar-collapse"
+                : "navbar-collapse"
             }
             id="collapseNavbar"
           >
             <div className="navbar-nav">
-              <NavLink className="nav-link" to="/movies">
+              <Link className="nav-link" to="/movies">
                 Movies
-              </NavLink>
-              <NavLink className="nav-link" to="/customers">
+              </Link>
+              <Link className="nav-link" to="/customers">
                 Customers
-              </NavLink>
-              <NavLink className="nav-link" to="/rentals">
+              </Link>
+              <Link className="nav-link" to="/rentals">
                 Rentals
-              </NavLink>
-              <NavLink className="nav-link" to="/login">
+              </Link>
+              <Link className="nav-link" to="/login">
                 Login
-              </NavLink>
+              </Link>
             </div>
           </div>
         </div>
