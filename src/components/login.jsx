@@ -1,18 +1,18 @@
 import React from "react";
 import LoginForm from "./loginForm";
 import RegisterForm from "./registerForm";
-import { Route, Routes, Link } from "react-router-dom";
+import { Route, Routes, NavLink } from "react-router-dom";
 
 export default function Login() {
   return (
     <React.Fragment>
       <ul className="nav nav-tabs">
-        <Link className="nav nav-link" to={"login-form"}>
+        <NavLink className="nav nav-link" to={"login-form"}>
           Login
-        </Link>
-        <Link className="nav nav-link" to={"register-form"}>
+        </NavLink>
+        <NavLink className={"nav nav-link"} to={"register-form"}>
           Register
-        </Link>
+        </NavLink>
       </ul>
 
       <Routes>
