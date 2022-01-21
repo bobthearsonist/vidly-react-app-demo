@@ -1,11 +1,14 @@
 import React from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-export default function MovieForm({ match, history }) {
+export default function MovieForm() {
+  const params = useParams();
+  const navigate = useNavigate();
   return (
     <div>
-      <h1>Movie Form + {match.params.id}</h1>
+      <h1>Movie Form + {params.id}</h1>
       <input
-        onClick={() => history.push("/movies")}
+        onClick={() => navigate("/movies")}
         type="button"
         className="btn btn-primary"
         value="Save"
