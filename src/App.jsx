@@ -1,8 +1,8 @@
 import React from "react";
 import "./App.css";
 import Movies from "./components/movies";
-import VidlyNavBar from "./components/navBar";
-import { Route, Switch, Redirect } from "react-router-dom";
+import VidlyNavBar from "./components/navbar";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Customers from "./components/customers";
 import Rentals from "./components/rentals";
 import MovieForm from "./components/movieForm";
@@ -13,16 +13,15 @@ function App() {
     <main className="container-fluid">
       <VidlyNavBar />
       <div className="content">
-        <Switch>
-          <Route path="/login" component={Login} />
-          <Route path="/movies" component={Movies} />
-          <Route path="/movie/:id" component={MovieForm} />
-          <Route path="/customers" component={Customers} />
-          <Route path="/rentals" component={Rentals} />
-          <Route path="/notfound" component={NotFound} />
-          <Redirect exact from="/" to="/movies" />
-          <Redirect to="/notfound" />
-        </Switch>
+        <Routes>
+          <Route path="/login/*" element={<Login />} />
+          <Route path="/movies" element={<Movies />} />
+          <Route path="/movie/:id" element={<MovieForm />} />
+          <Route path="/customers" element={<Customers />} />
+          <Route path="/rentals" element={<Rentals />} />
+          <Route path="/notfound" element={NotFound} />
+          <Route path="/" element={<Navigate replace to="/movies" />} />
+        </Routes>
       </div>
     </main>
   );

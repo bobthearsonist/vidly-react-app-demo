@@ -1,25 +1,25 @@
 import React from "react";
 import LoginForm from "./loginForm";
 import RegisterForm from "./registerForm";
-import { NavTab } from "react-router-tabs";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Route, Routes, Outlet, Link } from "react-router-dom";
 
-export default function Login({ match }) {
+export default function Login() {
   return (
     <React.Fragment>
       <ul className="nav nav-tabs">
-        <NavTab className="nav nav-link" to={`${match.path}/login-form`}>
+        <Link className="nav nav-link" to={"login-form"}>
           Login
-        </NavTab>
-        <NavTab className="nav nav-link" to={`${match.path}/register-form`}>
+        </Link>
+        <Link className="nav nav-link" to={"register-form"}>
           Register
-        </NavTab>
+        </Link>
       </ul>
-      <Switch>
-        <Redirect exact from="/login/" to={`${match.path}/login-form`} />
-        <Route path={`${match.path}/login-form`} component={LoginForm} />
-        <Route path={`${match.path}/register-form`} component={RegisterForm} />
-      </Switch>
+
+      <Routes>
+        <Route index element={<LoginForm />} />
+        <Route path={"login-form"} element={<LoginForm />} />
+        <Route path={"register-form"} element={<RegisterForm />} />
+      </Routes>
     </React.Fragment>
   );
 }
