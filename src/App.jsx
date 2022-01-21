@@ -19,8 +19,8 @@ function App() {
           <Route path="/movie/:id" element={<MovieForm />} />
           <Route path="/customers" element={<Customers />} />
           <Route path="/rentals" element={<Rentals />} />
-          <Route path="/notfound" element={NotFound} />
           <Route path="/" element={<Navigate replace to="/movies" />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </main>
