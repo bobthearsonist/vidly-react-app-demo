@@ -2,26 +2,28 @@ import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
-// import { expect, test } from "@jest/globals";
+import NotFound from "./components/notFound";
+import { beforeAll } from "@jest/globals";
 
-test("a bad page renders not found", async () => {
+beforeEach(() => {
   window.history.replaceState({}, "Test page", "/iam/a/bad/page");
 
-  const app = render(
+  return render(
     <BrowserRouter>
       <App />
     </BrowserRouter>
   );
+});
 
-  // const result = await app.findByTestId("NotFound");
-  // expect(result.src).toContain("NotFound");
+test("a bad route renders not found component", async () => {
+  await waitFor(() => screen.getByRole("heading"));
+  // waitFor(() => {
+  expect(NotFound);
+  // });
+});
 
-  waitFor(() => {
-    // Use window.location.pathname instead
-    expect(history.location.pathname).toEqual(/NotFound/i);
-  });
-
-  // expect(screen.getByText(/NotFound/i)).toBeInTheDocument();
+test("a bad route is replaced with notfound", async () => {
+  expect(window.location.pathname).toEqual(/NotFound/i);
 });
 
 // test("renders learn react link", () => {
