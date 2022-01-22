@@ -19,5 +19,5 @@ test("a bad route renders not found component", async () => {
 });
 
 test("a bad route is replaced with notfound", async () => {
-  expect(window.location.pathname).toEqual(/NotFound/i);
+  expect(window.location.pathname).toEqual("/notfound");
 });
