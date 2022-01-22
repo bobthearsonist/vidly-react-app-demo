@@ -7,6 +7,7 @@ import Customers from "./components/customers";
 import Rentals from "./components/rentals";
 import MovieForm from "./components/movieForm";
 import Login from "./components/login";
+import NotFound from "./components/notFound";
 
 function App() {
   return (
@@ -25,10 +26,6 @@ function App() {
       </div>
     </main>
   );
-}
-
-function NotFound() {
-  return <h1>NotFound</h1>;
 }
 
 export default App;
