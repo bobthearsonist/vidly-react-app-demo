@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function MovieForm() {
-  const params = useParams();
+  const { params } = useParams();
   const navigate = useNavigate();
   return (
     <div>
