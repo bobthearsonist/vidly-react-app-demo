@@ -21,7 +21,8 @@ function App() {
           <Route path="/customers" element={<Customers />} />
           <Route path="/rentals" element={<Rentals />} />
           <Route path="/" element={<Navigate replace to="/movies" />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path="/notfound" element={<NotFound />} />
+          <Route path="*" element={<Navigate replace to="/notfound" />} />
         </Routes>
       </div>
     </main>
