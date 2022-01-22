@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import Movies from "./components/movies";
-import VidlyNavBar from "./components/navbar";
+import VidlyNavBar from "./components/vidlyNavBar";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Customers from "./components/customers";
 import Rentals from "./components/rentals";

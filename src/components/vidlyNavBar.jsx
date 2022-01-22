@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
-export default class NavBar extends Component {
+//TODO create generic navbar
+export default class VidlyNavBar extends Component {
   state = { collapse: true };
 
   handleExpand = () => {
