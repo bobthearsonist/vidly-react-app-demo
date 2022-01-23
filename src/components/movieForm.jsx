@@ -1,11 +1,13 @@
 import BaseForm from "./common/baseForm";
 import Joi from "@hapi/joi";
-import { useParams, useNavigate } from "react-router-dom";
+import { withRouter } from "../hocs";
+import _ from "lodash";
 
-export default class MovieForm extends BaseForm {
+class MovieForm extends BaseForm {
+  // TODO add focus so you can select which gets focus
   fields = [
     { name: "title", label: "Title" },
-    { name: "genreId", label: "Genre" },
+    { name: "genre", label: "Genre" },
     {
       name: "numberInStock",
       label: "Stock",
@@ -28,27 +30,28 @@ export default class MovieForm extends BaseForm {
     dailyRentalRate: 0.0,
   };
 
-  onComponentDidMount = () => {
-    const params = useParams();
-    const { movie = this.newMovie } = this.props;
-    this.setState({ movie });
+  componentDidMount = () => {
+    const { state: data = this.newMovie } = this.props.location;
+
+    this.setState({ data });
   };
 
   schema = {
     title: Joi.string().required().label("Title"),
     genre: Joi.string().required().label("Genre"),
-    stock: Joi.number().integer().positive().required().label("Stock"),
-    rate: Joi.number().required().precision(2).label("Rate"),
+    numberInStock: Joi.number().integer().positive().required().label("Stock"),
+    dailyRentalRate: Joi.number().required().precision(2).label("Rate"),
   };
 
   label = "Save";
 
-  doSubmit = (data) => {
-    const navigate = useNavigate();
-    const params = useParams();
-    const { errors } = this.state;
-    console.log({ data, params, errors });
-    this.onSave({ ...data, params });
+  onSubmit = (data, errors) => {
+    const { location, navigate } = this.props;
+    // const { errors } = this.state;
+    console.log({ data, location, errors });
+    this.onSave({ ...data, location });
     navigate("/movies");
   };
 }
+
+export default withRouter(MovieForm);

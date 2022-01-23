@@ -9,10 +9,11 @@ import {
 import { getGenres } from "../services/fakeGenreService";
 import _ from "lodash";
 import Like from "./common/like";
-import { Link } from "react-router-dom";
 import MoviesTable from "./moviesTable";
+import { withRouter } from "../hocs";
+import { Link } from "react-router-dom";
 
-export default class Movies extends Component {
+class Movies extends Component {
   state = {
     movies: [],
     genres: [],
@@ -25,6 +26,7 @@ export default class Movies extends Component {
   allGenres = { name: "All Genres", _id: "all" };
 
   componentDidMount() {
+    //TODO look at this more
     const rehydrate = JSON.parse(localStorage.getItem("someSavedState"));
 
     if (!_(rehydrate).isEmpty()) {
@@ -68,6 +70,10 @@ export default class Movies extends Component {
     this.setState({ movies: getMovies() });
   };
 
+  handleShit = (shit) => {
+    console.log(shit);
+  };
+
   handleLike = (movie) => {
     console.log("handle like " + movie.id);
     const movies = [...this.state.movies];
@@ -95,17 +101,44 @@ export default class Movies extends Component {
   columns = [
     {
       content: (movie) => (
-        <Link
-          to={{
-            pathname: `/movie/${movie._id}`,
-            onSave: (newMovie) => this.handleSave(newMovie),
-            state: {
-              movie,
-            },
-          }}
-        >
-          {movie.title}
-        </Link>
+        // <button
+        //   onClick={() =>
+        //     this.props.navigate(`/movie/${movie._id}`, {
+        //       state: { data: { ...movie }, thing: "some thing" },
+        //       onSave: (newMovie) => this.handleSave(newMovie),
+        //     })
+        //   }
+        // >
+        //   {movie.title}
+        // </button>
+        // WHY THE FUCK CAN YOU NOT PASS STATE YOU STUPID FUCKING PIECE OF SHIT. I want these 5 hours of my life back.
+        <div>
+          <div className="row">
+            <Link
+              to={{
+                pathname: `/movie/${movie._id}`,
+              }}
+              state={movie}
+              onSave={(newMovie) => this.handleSave(newMovie)}
+            >
+              {movie.title}
+            </Link>
+          </div>
+          <div className="rows">
+            can i pass even the most basic of shit to you?
+          </div>
+          <div className="rows">
+            <Link
+              to={{
+                pathname: `/shit/${movie._id}`,
+              }}
+              state={{ shit: { ...movie } }}
+              onShit={() => this.handleShit(movie.title)}
+            >
+              shit
+            </Link>
+          </div>
+        </div>
       ),
       label: "Title",
       path: "title",
@@ -202,3 +235,5 @@ export default class Movies extends Component {
     return { totalCount: filteredMovies.length, pagedMovies };
   }
 }
+
+export default withRouter(Movies);
