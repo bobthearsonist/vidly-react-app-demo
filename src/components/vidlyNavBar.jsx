@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 //TODO create generic navbar
 export default class VidlyNavBar extends Component {
+  // TODO migrate to useState
   state = { collapse: true };
 
   handleExpand = () => {
