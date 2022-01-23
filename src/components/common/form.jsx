@@ -79,7 +79,7 @@ export default class Form extends Component {
   render() {
     const { data, errors, fields, buttonLabel } = this.props;
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={() => this.handleSubmit()}>
         {fields.map((field, index) =>
           this.renderInput(field, index, data, errors)
         )}
