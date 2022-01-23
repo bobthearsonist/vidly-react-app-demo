@@ -101,17 +101,6 @@ class Movies extends Component {
   columns = [
     {
       content: (movie) => (
-        // <button
-        //   onClick={() =>
-        //     this.props.navigate(`/movie/${movie._id}`, {
-        //       state: { data: { ...movie }, thing: "some thing" },
-        //       onSave: (newMovie) => this.handleSave(newMovie),
-        //     })
-        //   }
-        // >
-        //   {movie.title}
-        // </button>
-        // WHY THE FUCK CAN YOU NOT PASS STATE YOU STUPID FUCKING PIECE OF SHIT. I want these 5 hours of my life back.
         <div>
           <div className="row">
             <Link
