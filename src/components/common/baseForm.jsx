@@ -8,10 +8,15 @@ export default class BaseForm extends Component {
     errors: {},
   };
 
+  validate() {
+    Form.validate();
+  }
+
   componentDidMount() {
     const data = Object.fromEntries(
       this.fields.map((field) => [field.name, field.default])
     );
+
     this.setState({ data });
   }
 
@@ -33,6 +38,7 @@ export default class BaseForm extends Component {
 
   render() {
     const { data, errors } = this.state;
+
     return (
       <div>
         <Form

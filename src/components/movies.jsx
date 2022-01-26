@@ -113,9 +113,7 @@ class Movies extends Component {
               {movie.title}
             </Link>
           </div>
-          <div className="rows">
-            can i pass even the most basic of shit to you?
-          </div>
+          <div className="rows"></div>
           <div className="rows">
             <Link
               to={{
