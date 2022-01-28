@@ -35,4 +35,4 @@ workflows:
           post-steps:
             - codecov/upload
             - store_test_results:
-              path: test-results
+                path: test-results
