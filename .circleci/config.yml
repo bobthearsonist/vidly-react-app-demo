@@ -4,6 +4,7 @@ version: 2.1
 
 orbs: 
   node: circleci/node@5.0.0
+  codecov: codecov/codecov@3.2.2
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
@@ -31,3 +32,5 @@ workflows:
     jobs:
       - node/test:
           test-results-for: jest
+          post-steps:
+            - codecov/upload
