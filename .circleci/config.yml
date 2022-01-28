@@ -34,3 +34,7 @@ workflows:
           test-results-for: jest
           post-steps:
             - codecov/upload
+            - store_test_results:
+                path: test-results
+            - store_artifacts:
+                path: coverage
