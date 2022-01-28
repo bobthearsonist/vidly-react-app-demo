@@ -1,5 +1,3 @@
-[![Build Status](https://ci.appveyor.com/api/projects/status/byu2cq1fu42eft6p?svg=true)](https://ci.appveyor.com/project/bobthearsonist/vidly-react-app-demo)
-
 [![vidly-react-demo](https://circleci.com/<VCS>/<ORG_NAME>/<PROJECT_NAME>.svg?style=svg)](<LINK>)
 
 
