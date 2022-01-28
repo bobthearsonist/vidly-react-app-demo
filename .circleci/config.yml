@@ -31,7 +31,7 @@ workflows:
   test:
     jobs:
       - node/test:
-          test-results-for: jest --collectCoverage=true
+          test-results-for: jest
           post-steps:
             - codecov/upload
             - store_test_results:
