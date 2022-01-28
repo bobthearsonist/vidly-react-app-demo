@@ -3,7 +3,7 @@
 
 A simple demo app for coding with mosh exercises.
 
-[![vidly-react-demo](https://circleci.com/github/bobthearsonist/vidly-react-app-demo.svg?style=svg)](https://app.circleci.com/pipelines/github/bobthearsonist/vidly-react-app-demo?filter=all)
+[![CircleCI](https://circleci.com/gh/bobthearsonist/vidly-react-app-demo/tree/master.svg?style=svg)](https://circleci.com/gh/bobthearsonist/vidly-react-app-demo/tree/master)
 
 [![codecov](https://codecov.io/gh/bobthearsonist/vidly-react-app-demo/branch/master/graph/badge.svg?token=RAY8T0Q3IW)](https://codecov.io/gh/bobthearsonist/vidly-react-app-demo)
 
