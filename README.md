@@ -1,8 +1,5 @@
 [![Build Status](https://ci.appveyor.com/api/projects/status/byu2cq1fu42eft6p?svg=true)](https://ci.appveyor.com/project/bobthearsonist/vidly-react-app-demo)
 
-
-[![Coverage Status](https://coveralls.io/repos/github/bobthearsonist/vidly-react-app-demo/badge.svg?branch=master)](https://coveralls.io/github/bobthearsonist/vidly-react-app-demo?branch=master)
-
 [![vidly-react-demo](https://circleci.com/<VCS>/<ORG_NAME>/<PROJECT_NAME>.svg?style=svg)](<LINK>)
 
 
