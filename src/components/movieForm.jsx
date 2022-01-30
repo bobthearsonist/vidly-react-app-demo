@@ -69,7 +69,7 @@ class MovieForm extends BaseForm {
 
   label = "Save";
 
-  onSubmit = (data, errors) => {
+  doSubmit = (data, errors) => {
     const { location, navigate } = this.props;
     // const { errors } = this.state;
     console.log({ data, location, errors });
