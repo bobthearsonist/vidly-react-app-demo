@@ -8,10 +8,15 @@ export default class BaseForm extends Component {
     errors: {},
   };
 
+  validate() {
+    Form.validate();
+  }
+
   componentDidMount() {
     const data = Object.fromEntries(
       this.fields.map((field) => [field.name, field.default])
     );
+
     this.setState({ data });
   }
 
@@ -33,10 +38,11 @@ export default class BaseForm extends Component {
 
   render() {
     const { data, errors } = this.state;
+
     return (
       <div>
         <Form
-          onSubmit={(data) => this.handleSubmit(data)}
+          onSubmit={(data, errors) => this.handleSubmit(data, errors)}
           onChange={(data, errors) => this.handleChange(data, errors)}
           fields={this.fields}
           data={data}

@@ -8,6 +8,7 @@ import Rentals from "./components/rentals";
 import MovieForm from "./components/movieForm";
 import Login from "./components/login";
 import NotFound from "./components/notFound";
+import Shit from "./components/shit";
 
 function App() {
   return (
@@ -15,8 +16,19 @@ function App() {
       <VidlyNavBar />
       <div className="content">
         <Routes>
+          <Route
+            path="/shit/:id"
+            element={
+              <Shit
+                //dear sweet jesus this took forever to figure out
+                someShit={"some shit"}
+                onShit
+              />
+            }
+          />
           <Route path="/login/*" element={<Login />} />
           <Route path="/movies" element={<Movies />} />
+          <Route path="/movie/newmovie" element={<MovieForm />} />
           <Route path="/movie/:id" element={<MovieForm />} />
           <Route path="/customers" element={<Customers />} />
           <Route path="/rentals" element={<Rentals />} />

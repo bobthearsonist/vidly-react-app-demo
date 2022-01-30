@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Joi from "@hapi/joi";
 import _ from "lodash";
 import Input from "./input";
+import Select from "./select";
 
 export default class Form extends Component {
   validate = () => {
@@ -76,13 +77,26 @@ export default class Form extends Component {
     );
   };
 
+  renderSelect = (field, index, errors) => {
+    return (
+      <Select
+        key={field.name + index}
+        label={field.label}
+        options={field.options}
+        onChange={this.handleChange}
+        errors={[field.name]}
+      />
+    );
+  };
+
   render() {
     const { data, errors, fields, buttonLabel } = this.props;
     return (
-      <form onSubmit={this.handleSubmit}>
-        {fields.map((field, index) =>
-          this.renderInput(field, index, data, errors)
-        )}
+      <form onSubmit={(e) => this.handleSubmit(e)}>
+        {fields.map((field, index) => {
+          if (field.options) return this.renderSelect(field, index, errors);
+          return this.renderInput(field, index, data, errors);
+        })}
         {this.renderButton(buttonLabel)}
       </form>
     );

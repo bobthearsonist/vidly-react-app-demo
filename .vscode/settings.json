@@ -1,5 +1,9 @@
 {
     "cSpell.words": [
+        "hocs",
+        "newmovie",
+        "tlds",
         "Vidly"
-    ]
+    ],
+    "jest.jestCommandLine": "jest"
 }

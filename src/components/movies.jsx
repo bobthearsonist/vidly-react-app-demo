@@ -1,14 +1,19 @@
 import React, { Component } from "react";
 import ListGroup from "./common/listGroup";
 import Pagination from "./common/pagination";
-import { getMovies, deleteMovie } from "../services/fakeMovieService";
+import {
+  getMovies,
+  deleteMovie,
+  saveMovie,
+} from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
 import _ from "lodash";
 import Like from "./common/like";
-import { Link } from "react-router-dom";
 import MoviesTable from "./moviesTable";
+import { withRouter } from "../hocs";
+import { Link } from "react-router-dom";
 
-export default class Movies extends Component {
+class Movies extends Component {
   state = {
     movies: [],
     genres: [],
@@ -21,19 +26,35 @@ export default class Movies extends Component {
   allGenres = { name: "All Genres", _id: "all" };
 
   componentDidMount() {
-    const genres = [this.allGenres, ...getGenres()];
-    const currentGenre = this.allGenres;
-    this.setState({
-      movies: getMovies(),
-      genres,
-      currentGenre,
-    });
+    //TODO look at this more
+    const rehydrate = JSON.parse(localStorage.getItem("someSavedState"));
+
+    if (!_(rehydrate).isEmpty()) {
+      this.setState(rehydrate);
+    } else {
+      const genres = [this.allGenres, ...getGenres()];
+      const currentGenre = this.allGenres;
+      this.setState({
+        movies: getMovies(),
+        genres,
+        currentGenre,
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    localStorage.setItem("state", JSON.stringify(this.state));
   }
 
   handleDelete = (movieId) => {
     console.log("handle delete " + movieId);
     deleteMovie(movieId);
     this.setState({ movies: getMovies() });
+  };
+
+  // apparently irt is now impossible to handle an event through a link that isnt a child route because there is no way to pass the handler?!
+  handleShit = (shit) => {
+    console.log(shit);
   };
 
   handleLike = (movie) => {
@@ -62,7 +83,38 @@ export default class Movies extends Component {
 
   columns = [
     {
-      content: (movie) => <Link to={`/movie/${movie._id}`}>{movie.title}</Link>,
+      content: (movie) => (
+        <div>
+          <div className="row">
+            <Link
+              to={{
+                pathname: `/movie/${movie._id}`,
+              }}
+              state={movie}
+            >
+              {movie.title}
+            </Link>
+          </div>
+          <div className="rows">
+            can i pass even the most basic of shit to you?
+          </div>
+          <div className="rows">
+            <Link
+              to={{
+                pathname: `/shit/${movie._id}`,
+              }}
+              state={{
+                shit: { ...movie },
+                onShit: this.handleShit(movie.title),
+              }}
+              onClick={() => console.log(movie)}
+              onShit={() => this.handleShit(movie)}
+            >
+              shit
+            </Link>
+          </div>
+        </div>
+      ),
       label: "Title",
       path: "title",
     },
@@ -83,7 +135,7 @@ export default class Movies extends Component {
       content: (movie) => (
         <button
           onClick={() => this.handleDelete(movie._id, this.props.onDelete)}
-          className="btn btn-danger btn-sm"
+          className="btn btn-danger btn-sm pull-right"
         >
           Delete
         </button>
@@ -118,6 +170,7 @@ export default class Movies extends Component {
               onSort={(selectedSort) => this.handleSort(selectedSort)}
               onDelete={(id) => this.handleDelete(id)}
               onLike={(movie) => this.handleLike(movie)}
+              onSave={(newMovie) => this.handleSave(newMovie)}
             />
             <footer>
               <Pagination
@@ -157,3 +210,5 @@ export default class Movies extends Component {
     return { totalCount: filteredMovies.length, pagedMovies };
   }
 }
+
+export default withRouter(Movies);

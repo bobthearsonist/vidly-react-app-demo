@@ -1,10 +1,12 @@
 import React from "react";
 import Table from "./common/table";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function MoviesTable({
   onSort,
   onDelete,
   onLike,
+  onSave,
   count,
   movies,
   ...rest
@@ -17,6 +19,20 @@ export default function MoviesTable({
         </div>
         <div className="col">
           <span>Movies Available</span>
+        </div>
+        <div className="col">
+          <Link
+            to={{
+              pathname: "/movie/newmovie",
+              onSave: (newMovie) => this.handleSave(newMovie),
+              state: {
+                movie: null,
+              },
+            }}
+            className="btn btn-primary pull-right"
+          >
+            NewMovie
+          </Link>
         </div>
       </div>
       <Table
