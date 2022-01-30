@@ -33,7 +33,7 @@ class MovieForm extends BaseForm {
     const genre = { ...this.fields[index], options: genres };
     this.fields.splice(index, 1, genre);
 
-    this.setState({ genres });
+    this.state.genres = genres;
   }
 
   state = {
