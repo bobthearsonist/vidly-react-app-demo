@@ -28,14 +28,8 @@ function App() {
           />
           <Route path="/login/*" element={<Login />} />
           <Route path="/movies" element={<Movies />} />
-          <Route
-            path="/movie/newmovie"
-            element={<MovieForm onSave="i am a thing" />}
-          />
-          <Route
-            path="/movie/:id"
-            element={<MovieForm onSave={(movie) => this.handleSave(movie)} />}
-          />
+          <Route path="/movie/newmovie" element={<MovieForm />} />
+          <Route path="/movie/:id" element={<MovieForm />} />
           <Route path="/customers" element={<Customers />} />
           <Route path="/rentals" element={<Rentals />} />
           <Route path="/" element={<Navigate replace to="/movies" />} />

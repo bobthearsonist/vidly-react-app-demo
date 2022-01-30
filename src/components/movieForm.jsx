@@ -3,6 +3,7 @@ import Joi from "@hapi/joi";
 import { withRouter } from "../hocs";
 import _ from "lodash";
 import { getGenres } from "../services/fakeGenreService";
+import { saveMovie, getMovies } from "../services/fakeMovieService";
 
 class MovieForm extends BaseForm {
   // TODO add focus so you can select which gets focus
@@ -71,9 +72,15 @@ class MovieForm extends BaseForm {
 
   doSubmit = (data, errors) => {
     const { location, navigate } = this.props;
-    // const { errors } = this.state;
     console.log({ data, location, errors });
-    this.onSave({ ...data, location });
+
+    if (errors) return;
+
+    const movie = { ...data };
+
+    saveMovie(movie);
+    this.setState({ movies: getMovies() });
+
     navigate("/movies");
   };
 }

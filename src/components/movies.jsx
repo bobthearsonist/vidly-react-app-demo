@@ -52,24 +52,6 @@ class Movies extends Component {
     this.setState({ movies: getMovies() });
   };
 
-  handleSave = ({
-    _id,
-    title,
-    genre,
-    stock: numberInStock,
-    rate: dailyRentalRate,
-  }) => {
-    console.log("handle save");
-    saveMovie({
-      _id,
-      title,
-      genre,
-      numberInStock,
-      dailyRentalRate,
-    });
-    this.setState({ movies: getMovies() });
-  };
-
   // apparently irt is now impossible to handle an event through a link that isnt a child route because there is no way to pass the handler?!
   handleShit = (shit) => {
     console.log(shit);
@@ -109,7 +91,6 @@ class Movies extends Component {
                 pathname: `/movie/${movie._id}`,
               }}
               state={movie}
-              onSave={(newMovie) => this.handleSave(newMovie)}
             >
               {movie.title}
             </Link>
