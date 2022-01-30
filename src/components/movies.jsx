@@ -70,10 +70,6 @@ class Movies extends Component {
     this.setState({ movies: getMovies() });
   };
 
-  handleShit = (shit) => {
-    console.log(shit);
-  };
-
   handleLike = (movie) => {
     console.log("handle like " + movie.id);
     const movies = [...this.state.movies];
@@ -111,18 +107,6 @@ class Movies extends Component {
               onSave={(newMovie) => this.handleSave(newMovie)}
             >
               {movie.title}
-            </Link>
-          </div>
-          <div className="rows"></div>
-          <div className="rows">
-            <Link
-              to={{
-                pathname: `/shit/${movie._id}`,
-              }}
-              state={{ shit: { ...movie } }}
-              onShit={() => this.handleShit(movie.title)}
-            >
-              shit
             </Link>
           </div>
         </div>
