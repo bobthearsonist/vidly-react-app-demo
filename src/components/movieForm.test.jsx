@@ -13,24 +13,22 @@ test("MovieForm properly uses v6 params", async () => {
       </Routes>
     </BrowserRouter>
   );
-
-  expect(MovieForm);
 });
 
-test("MovieForm properly uses v6 params", async () => {
+test("MovieForm properly renders", async () => {
   window.history.replaceState(
     {},
     "Test page",
     "/movie/5b21ca3eeb7f6fbccd47181a"
   );
 
-  render(
+  const { movieForm } = render(
     <BrowserRouter>
       <MovieForm />
     </BrowserRouter>
   );
 
-  // expect(movieForm.state.movie).not.toBeUndefined();
+  expect(movieForm.state.movie).not.toBeUndefined();
   expect(window.location.pathname).toEqual("/movie/5b21ca3eeb7f6fbccd47181a");
   expect(screen.getByRole("button")).not.toBeDisabled();
 });
