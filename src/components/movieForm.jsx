@@ -60,7 +60,7 @@ class MovieForm extends BaseForm {
   };
 
   schema = {
-    _id: Joi.string().required,
+    _id: Joi.string().required(),
     title: Joi.string().required().label("Title"),
     genre: Joi.object().required().label("Genre"),
     numberInStock: Joi.number().integer().positive().required().label("Stock"),
