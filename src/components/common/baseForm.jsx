@@ -42,7 +42,7 @@ export default class BaseForm extends Component {
     return (
       <div>
         <Form
-          onSubmit={(data) => this.handleSubmit(data)}
+          onSubmit={(data, errors) => this.handleSubmit(data, errors)}
           onChange={(data, errors) => this.handleChange(data, errors)}
           fields={this.fields}
           data={data}
